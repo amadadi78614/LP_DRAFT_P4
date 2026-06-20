@@ -306,10 +306,8 @@ function calcDraft(){
 
     console.log(`✅ Solved in ${attempt} attempt(s)`);
 
-    // Build sequence — anchors drawn live (Phase 0), then P1 soloA, P2 fams, P3 soloK
-    const anchors=PLAYERS.filter(p=>p.preAssigned);
-    shuffle(anchors);
-    const p0=anchors.map(p=>({players:[p],teamId:p.preAssigned,phase:0,type:'Anchor'}));
+    // Build sequence — each anchor is its own individual pick, fully shuffled
+    const p0=shuffle(PLAYERS.filter(p=>p.preAssigned).map(p=>({players:[p],teamId:p.preAssigned,phase:0,type:'Anchor'})));
     const p1=sa.map(p=>({players:[p],teamId:assign[p.name],phase:1,type:'Single Adult'}));
     const p2=sf.map(fam=>({players:fam.members,teamId:assign[fam.id],phase:2,type:'Family Package'}));
     const p3=sk.map(p=>({players:[p],teamId:assign[p.name],phase:3,type:'Single Youth'}));
