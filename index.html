@@ -8,231 +8,160 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;600;700&family=Inter:wght@400;500;600;700&display=swap');
 
-:root {
-  --t1:#c084fc; --t1bg:#1a0a2e; --t1b:#4c1d95;
-  --t2:#60a5fa; --t2bg:#0a1628; --t2b:#1e3a6e;
-  --t3:#34d399; --t3bg:#022c22; --t3b:#065f46;
-  --t4:#fb923c; --t4bg:#1c0a00; --t4b:#7c2d12;
-  --t5:#facc15; --t5bg:#1c1400; --t5b:#713f12;
-  --t6:#f87171; --t6bg:#200a0a; --t6b:#7f1d1d;
-}
-
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: #05070e; font-family: 'Inter', sans-serif; color: #e2e8f0; min-height: 100vh; }
-
+body { background: #0f172a; font-family: 'Inter', sans-serif; color: #f1f5f9; min-height: 100vh; }
 .font-oswald { font-family: 'Oswald', sans-serif; }
 
-/* Glassmorphism */
-.glass {
-  background: rgba(255,255,255,0.04);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255,255,255,0.08);
-}
+/* Team card theming */
+.team-card { border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.12); }
+.tc1 { background: #1e1030; border-top: 4px solid #c084fc; }
+.tc2 { background: #0c1f3f; border-top: 4px solid #60a5fa; }
+.tc3 { background: #052e1c; border-top: 4px solid #34d399; }
+.tc4 { background: #2a1200; border-top: 4px solid #fb923c; }
+.tc5 { background: #1c1600; border-top: 4px solid #facc15; }
+.tc6 { background: #280a0a; border-top: 4px solid #f87171; }
 
-/* Header */
-.header-gradient {
-  background: linear-gradient(135deg, #0d1b3e 0%, #05070e 60%);
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-}
+.tc1-text { color: #d8b4fe; }
+.tc2-text { color: #93c5fd; }
+.tc3-text { color: #6ee7b7; }
+.tc4-text { color: #fdba74; }
+.tc5-text { color: #fde68a; }
+.tc6-text { color: #fca5a5; }
 
-/* Team cards */
-.team-card { border-radius: 12px; overflow: hidden; transition: all 0.3s; }
-.team-card.t1 { border-top: 3px solid var(--t1); background: linear-gradient(160deg, var(--t1bg), #05070e); }
-.team-card.t2 { border-top: 3px solid var(--t2); background: linear-gradient(160deg, var(--t2bg), #05070e); }
-.team-card.t3 { border-top: 3px solid var(--t3); background: linear-gradient(160deg, var(--t3bg), #05070e); }
-.team-card.t4 { border-top: 3px solid var(--t4); background: linear-gradient(160deg, var(--t4bg), #05070e); }
-.team-card.t5 { border-top: 3px solid var(--t5); background: linear-gradient(160deg, var(--t5bg), #05070e); }
-.team-card.t6 { border-top: 3px solid var(--t6); background: linear-gradient(160deg, var(--t6bg), #05070e); }
-
-.team-card.pulse-in { animation: teamPulse 0.6s ease; }
-@keyframes teamPulse {
-  0%   { box-shadow: 0 0 0 0 rgba(255,255,255,0.3); }
-  50%  { box-shadow: 0 0 0 6px rgba(255,255,255,0.1); }
-  100% { box-shadow: 0 0 0 0 rgba(255,255,255,0); }
-}
-
-.t1-text { color: var(--t1); }
-.t2-text { color: var(--t2); }
-.t3-text { color: var(--t3); }
-.t4-text { color: var(--t4); }
-.t5-text { color: var(--t5); }
-.t6-text { color: var(--t6); }
-
-/* Progress bars */
-.prog-bar { height: 4px; border-radius: 2px; background: rgba(255,255,255,0.08); overflow: hidden; }
-.prog-fill { height: 100%; border-radius: 2px; transition: width 0.4s ease; }
-.t1 .prog-fill { background: var(--t1); }
-.t2 .prog-fill { background: var(--t2); }
-.t3 .prog-fill { background: var(--t3); }
-.t4 .prog-fill { background: var(--t4); }
-.t5 .prog-fill { background: var(--t5); }
-.t6 .prog-fill { background: var(--t6); }
+/* Progress bar */
+.prog-bar { height: 5px; border-radius: 3px; background: rgba(255,255,255,0.1); overflow: hidden; }
+.prog-fill { height: 100%; border-radius: 3px; transition: width 0.5s ease; }
+.tc1 .prog-fill { background: #c084fc; }
+.tc2 .prog-fill { background: #60a5fa; }
+.tc3 .prog-fill { background: #34d399; }
+.tc4 .prog-fill { background: #fb923c; }
+.tc5 .prog-fill { background: #facc15; }
+.tc6 .prog-fill { background: #f87171; }
 
 /* Player entries */
 .player-entry {
   opacity: 0;
-  transform: translateY(-8px);
-  transition: opacity 0.35s ease, transform 0.35s ease;
-  font-size: 11px;
-  padding: 3px 6px;
-  border-radius: 4px;
+  transform: translateY(-6px);
+  transition: opacity 0.35s, transform 0.35s;
+  font-size: 11.5px;
+  padding: 4px 7px;
+  border-radius: 5px;
   margin: 2px 0;
-  background: rgba(255,255,255,0.04);
-  color: #94a3b8;
+  color: #cbd5e1;
+  background: rgba(255,255,255,0.07);
   line-height: 1.4;
-  display: flex;
-  align-items: center;
-  gap: 4px;
 }
 .player-entry.visible { opacity: 1; transform: translateY(0); }
-.player-entry.anchor { opacity: 0.5; font-style: italic; }
-.player-entry.new-pick {
-  background: rgba(240,192,64,0.15);
-  color: #fde68a;
+.player-entry.new-single {
+  background: rgba(96,165,250,0.18);
+  color: #bfdbfe;
   font-weight: 600;
 }
-.player-entry.family-pick {
-  background: rgba(167,139,250,0.12);
-  color: #c4b5fd;
+.player-entry.new-family {
+  background: rgba(167,139,250,0.18);
+  color: #ddd6fe;
+  font-weight: 600;
+}
+.player-entry.anchor-style {
+  background: rgba(255,255,255,0.05);
+  color: #94a3b8;
+  font-style: italic;
 }
 
 /* Jumbotron */
 .jumbotron {
-  background: linear-gradient(135deg, rgba(15,23,42,0.9), rgba(5,7,14,0.95));
-  border: 1px solid rgba(255,255,255,0.08);
+  background: #1e293b;
+  border: 1px solid rgba(255,255,255,0.12);
   border-radius: 16px;
-  backdrop-filter: blur(20px);
-  position: relative;
-  overflow: hidden;
-}
-.jumbotron::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse at 20% 50%, rgba(99,102,241,0.08) 0%, transparent 60%),
-              radial-gradient(ellipse at 80% 50%, rgba(16,185,129,0.06) 0%, transparent 60%);
-  pointer-events: none;
 }
 
-/* Slot machine animation */
-.slot-value {
-  transition: color 0.15s;
-  text-shadow: 0 0 30px currentColor;
+/* Slot machine */
+.slot-val {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(18px, 2.5vw, 26px);
+  font-weight: 600;
+  min-height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: pre-line;
+  line-height: 1.25;
+  transition: color 0.2s;
+  text-align: center;
 }
-.slot-value.spinning { color: #334155; animation: spinFlicker 0.08s infinite alternate; }
-.slot-value.landed-player { color: #fbbf24; text-shadow: 0 0 30px rgba(251,191,36,0.5); }
-.slot-value.landed-team { color: #34d399; text-shadow: 0 0 30px rgba(52,211,153,0.5); }
-.slot-value.idle { color: #1e293b; }
-@keyframes spinFlicker { from { opacity: 0.6; } to { opacity: 1; } }
+.slot-val.idle    { color: #334155; }
+.slot-val.spin    { color: #334155; animation: flicker .07s infinite alternate; }
+.slot-val.player  { color: #fcd34d; text-shadow: 0 0 24px rgba(252,211,77,.45); }
+.slot-val.team    { color: #34d399; text-shadow: 0 0 24px rgba(52,211,153,.4); }
+@keyframes flicker { from{opacity:.5} to{opacity:1} }
 
 /* Phase badge */
 .phase-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 14px;
-  border-radius: 20px;
-  font-size: 11px;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  font-weight: 600;
-  transition: all 0.4s;
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 16px; border-radius: 20px;
+  font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600;
+  transition: all .4s;
 }
-.phase-badge.p1 { background: rgba(96,165,250,0.12); border: 1px solid rgba(96,165,250,0.3); color: #60a5fa; }
-.phase-badge.p2 { background: rgba(167,139,250,0.12); border: 1px solid rgba(167,139,250,0.3); color: #a78bfa; }
-.phase-badge.p3 { background: rgba(52,211,153,0.12); border: 1px solid rgba(52,211,153,0.3); color: #34d399; }
-.phase-badge.done { background: rgba(251,191,36,0.12); border: 1px solid rgba(251,191,36,0.3); color: #fbbf24; }
-.phase-badge.idle { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); color: #475569; }
+.pb-idle { background:#1e293b; border:1px solid #334155; color:#475569; }
+.pb-p1   { background:rgba(96,165,250,.15); border:1px solid rgba(96,165,250,.4); color:#93c5fd; }
+.pb-p2   { background:rgba(167,139,250,.15); border:1px solid rgba(167,139,250,.4); color:#c4b5fd; }
+.pb-p3   { background:rgba(52,211,153,.15); border:1px solid rgba(52,211,153,.4); color:#6ee7b7; }
+.pb-done { background:rgba(252,211,77,.15); border:1px solid rgba(252,211,77,.4); color:#fcd34d; }
 
-/* Draw button */
+/* Buttons */
 .btn-draw {
-  background: linear-gradient(135deg, #1d4ed8, #1e40af);
-  color: white;
-  border: none;
-  padding: 12px 40px;
-  border-radius: 10px;
-  font-family: 'Oswald', sans-serif;
-  font-size: 16px;
-  font-weight: 600;
-  letter-spacing: 2px;
-  cursor: pointer;
-  text-transform: uppercase;
-  transition: all 0.2s;
-  box-shadow: 0 4px 24px rgba(29,78,216,0.4);
+  background: linear-gradient(135deg,#2563eb,#1d4ed8);
+  color:#fff; border:none; padding:12px 40px; border-radius:10px;
+  font-family:'Oswald',sans-serif; font-size:16px; font-weight:600;
+  letter-spacing:2px; cursor:pointer; text-transform:uppercase;
+  transition:all .2s; box-shadow:0 4px 20px rgba(37,99,235,.4);
 }
-.btn-draw:hover:not(:disabled) {
-  background: linear-gradient(135deg, #2563eb, #1d4ed8);
-  transform: translateY(-1px);
-  box-shadow: 0 6px 28px rgba(37,99,235,0.5);
-}
-.btn-draw:disabled {
-  background: #1e293b;
-  color: #334155;
-  cursor: not-allowed;
-  box-shadow: none;
-  transform: none;
-}
+.btn-draw:hover:not(:disabled){ background:linear-gradient(135deg,#3b82f6,#2563eb); transform:translateY(-1px); }
+.btn-draw:disabled{ background:#1e293b; color:#334155; cursor:not-allowed; box-shadow:none; transform:none; }
 .btn-reset {
-  background: transparent;
-  border: 1px solid #1e293b;
-  color: #475569;
-  padding: 10px 20px;
-  border-radius: 8px;
-  font-size: 12px;
-  cursor: pointer;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  transition: all 0.2s;
+  background:transparent; border:1px solid #334155; color:#64748b;
+  padding:10px 20px; border-radius:8px; font-size:12px; cursor:pointer;
+  letter-spacing:1px; text-transform:uppercase; transition:all .2s;
 }
-.btn-reset:hover { border-color: #334155; color: #94a3b8; }
+.btn-reset:hover{ border-color:#475569; color:#94a3b8; }
+
+/* Section label inside card */
+.sec-label { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: #475569; padding: 3px 6px 2px; border-bottom: 1px solid rgba(255,255,255,.06); margin-bottom: 2px; }
+
+/* Pulse on card when picked */
+.card-pulse { animation: cpulse .5s ease; }
+@keyframes cpulse { 0%{box-shadow:0 0 0 0 rgba(255,255,255,.25)} 100%{box-shadow:0 0 0 10px transparent} }
 
 /* Complete banner */
 .complete-banner {
-  display: none;
-  background: linear-gradient(135deg, rgba(5,46,22,0.8), rgba(5,7,14,0.9));
-  border: 1px solid #065f46;
-  border-radius: 12px;
-  padding: 18px;
-  text-align: center;
-  font-family: 'Oswald', sans-serif;
-  font-size: 22px;
-  color: #34d399;
-  letter-spacing: 3px;
-  text-transform: uppercase;
+  display:none;
+  background: linear-gradient(135deg,#052e1c,#0f172a);
+  border:1px solid #065f46; border-radius:12px;
+  padding:18px; text-align:center;
+  font-family:'Oswald',sans-serif; font-size:22px;
+  color:#34d399; letter-spacing:3px; text-transform:uppercase;
 }
 
-/* Scrollbar */
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 2px; }
-
-/* Section divider inside card */
-.section-divider {
-  height: 1px;
-  background: rgba(255,255,255,0.05);
-  margin: 4px 0;
-}
+::-webkit-scrollbar{width:4px} ::-webkit-scrollbar-track{background:transparent} ::-webkit-scrollbar-thumb{background:#1e293b;border-radius:2px}
 </style>
 </head>
 <body class="p-4">
 
 <!-- HEADER -->
-<div class="header-gradient rounded-xl mb-4 px-6 py-5 text-center">
-  <div class="font-oswald text-3xl font-bold tracking-widest text-white uppercase mb-1">
-    ⚡ The Official Padel Draft ⚡
-  </div>
-  <div class="flex items-center justify-center gap-3 mt-2">
-    <span class="text-xs tracking-widest text-slate-500 uppercase border border-slate-800 rounded-full px-3 py-1">6 Teams</span>
-    <span class="text-xs tracking-widest text-slate-500 uppercase border border-slate-800 rounded-full px-3 py-1">48 Players</span>
-    <span class="text-xs tracking-widest text-slate-500 uppercase border border-slate-800 rounded-full px-3 py-1">LPFL Season 4</span>
+<div style="background:linear-gradient(135deg,#162040,#0f172a);border-bottom:1px solid rgba(255,255,255,.08)" class="rounded-xl mb-4 px-6 py-5 text-center">
+  <div class="font-oswald text-3xl font-bold tracking-widest text-white uppercase">⚡ The Official Padel Draft ⚡</div>
+  <div class="flex justify-center gap-3 mt-2">
+    <span class="text-xs tracking-widest text-slate-400 uppercase border border-slate-700 rounded-full px-3 py-1">6 Teams</span>
+    <span class="text-xs tracking-widest text-slate-400 uppercase border border-slate-700 rounded-full px-3 py-1">48 Players</span>
+    <span class="text-xs tracking-widest text-slate-400 uppercase border border-slate-700 rounded-full px-3 py-1">LPFL Season 4</span>
   </div>
 </div>
 
-<!-- CONTROLS + PHASE -->
-<div class="glass rounded-xl mb-4 px-5 py-3 flex flex-wrap items-center justify-between gap-3">
+<!-- CONTROLS -->
+<div style="background:#1e293b;border:1px solid rgba(255,255,255,.08)" class="rounded-xl mb-4 px-5 py-3 flex flex-wrap items-center justify-between gap-3">
   <div class="flex items-center gap-3">
-    <span class="phase-badge idle" id="phase-badge">⏳ Awaiting Draft</span>
-    <span class="text-xs text-slate-600" id="pick-counter">Pick 0 of 0</span>
+    <span class="phase-badge pb-idle" id="phase-badge">⏳ Awaiting Draft</span>
+    <span class="text-xs text-slate-500" id="pick-counter">Pick 0 of 0</span>
   </div>
   <div class="flex items-center gap-3">
     <button class="btn-reset" id="btn-reset">↺ Reset</button>
@@ -244,364 +173,314 @@ body { background: #05070e; font-family: 'Inter', sans-serif; color: #e2e8f0; mi
 <div class="jumbotron mb-4 p-5">
   <div class="grid grid-cols-2 gap-4">
     <div class="text-center">
-      <div class="text-xs tracking-widest text-slate-600 uppercase mb-3">🎯 The Player(s)</div>
-      <div class="font-oswald text-2xl font-semibold slot-value idle whitespace-pre-line min-h-16 flex items-center justify-center leading-snug" id="jumbo-player">— — —</div>
-      <div class="mt-2 text-xs text-slate-600" id="jumbo-pick-type"></div>
+      <div class="text-xs tracking-widest text-slate-500 uppercase mb-2">🎯 The Player(s)</div>
+      <div class="slot-val idle" id="jumbo-player">— — —</div>
+      <div class="mt-1 text-xs text-slate-500" id="jumbo-pick-type"></div>
     </div>
-    <div class="text-center border-l border-slate-800">
-      <div class="text-xs tracking-widest text-slate-600 uppercase mb-3">🏠 The Destination</div>
-      <div class="font-oswald text-2xl font-semibold slot-value idle min-h-16 flex items-center justify-center" id="jumbo-team">— — —</div>
-      <div class="mt-2 text-xs text-slate-600" id="jumbo-team-tally"></div>
+    <div class="text-center" style="border-left:1px solid rgba(255,255,255,.06)">
+      <div class="text-xs tracking-widest text-slate-500 uppercase mb-2">🏠 The Destination</div>
+      <div class="slot-val idle" id="jumbo-team">— — —</div>
+      <div class="mt-1 text-xs text-slate-500" id="jumbo-tally"></div>
     </div>
   </div>
 </div>
 
-<!-- TEAM ROSTER GRID -->
+<!-- ROSTER -->
 <div class="grid grid-cols-6 gap-3 mb-4" id="roster-grid"></div>
 
-<!-- COMPLETE BANNER -->
+<!-- COMPLETE -->
 <div class="complete-banner" id="complete-banner">🏆 Draft Complete — All 48 Players Assigned 🏆</div>
 
 <script>
-// ═══════════════════════════════════════════════
-// DATA
-// ═══════════════════════════════════════════════
+// ── DATA ──────────────────────────────────────────────────────
 const TEAM_DEFS = [
-  {id:'t1', name:'Team 1', cls:'t1', color:'#c084fc'},
-  {id:'t2', name:'Team 2', cls:'t2', color:'#60a5fa'},
-  {id:'t3', name:'Team 3', cls:'t3', color:'#34d399'},
-  {id:'t4', name:'Team 4', cls:'t4', color:'#fb923c'},
-  {id:'t5', name:'Team 5', cls:'t5', color:'#facc15'},
-  {id:'t6', name:'Team 6', cls:'t6', color:'#f87171'},
+  {id:'t1',name:'Team 1',cls:'tc1',tcls:'tc1-text'},
+  {id:'t2',name:'Team 2',cls:'tc2',tcls:'tc2-text'},
+  {id:'t3',name:'Team 3',cls:'tc3',tcls:'tc3-text'},
+  {id:'t4',name:'Team 4',cls:'tc4',tcls:'tc4-text'},
+  {id:'t5',name:'Team 5',cls:'tc5',tcls:'tc5-text'},
+  {id:'t6',name:'Team 6',cls:'tc6',tcls:'tc6-text'},
 ];
 
 const PLAYERS = [
   // ANCHORS
-  {name:"Shoaib Nomani", isKid:false, preAssigned:"t1"},
-  {name:"Nomz",          isKid:false, preAssigned:"t1"},
-  {name:"Aadam Nomani",  isKid:true,  preAssigned:"t1"},
-  {name:"Rafiq Mohamed", isKid:false, preAssigned:"t2"},
-  {name:"Ayaan Mohamed", isKid:true,  preAssigned:"t2"},
-  {name:"Irshaad Moola", isKid:false, preAssigned:"t3"},
-  {name:"Mohamed Moola", isKid:true,  preAssigned:"t3"},
-  {name:"Isa Moola",     isKid:true,  preAssigned:"t3"},
-  {name:"Muhammad Mangerah", isKid:false, preAssigned:"t4"},
-  {name:"Ebrahim Mangerah",  isKid:true,  preAssigned:"t4"},
-  {name:"Yusuf Ismail",  isKid:false, preAssigned:"t5"},
-  {name:"Zuhayr Ismail", isKid:true,  preAssigned:"t5"},
-  // FAMILIES (Phase 2)
-  {name:"Fahad",            isKid:false, family:"fam1"}, {name:"Hoosein Patel",    isKid:true,  family:"fam1"},
-  {name:"Irfaan",           isKid:false, family:"fam2"}, {name:"Amaar",            isKid:true,  family:"fam2"},
-  {name:"Azhar Sujee",      isKid:false, family:"fam3"}, {name:"Yahya Sujee",      isKid:true,  family:"fam3"},
-  {name:"Oz",               isKid:false, family:"fam4"}, {name:"Ruro",             isKid:true,  family:"fam4"},
-  {name:"Stiaan Duvenhage", isKid:false, family:"fam5"}, {name:"Dewan Duvenhage",  isKid:true,  family:"fam5"},
-  {name:"Scharl",           isKid:false, family:"fam6"}, {name:"Jude",             isKid:true,  family:"fam6"}, {name:"Seth van den Berg", isKid:true, family:"fam6"},
-  {name:"Fiaz Bhikoo",      isKid:false, family:"fam7"}, {name:"Arman Bhikoo",     isKid:true,  family:"fam7"},
-  // SINGLE ADULTS (Phase 1)
-  {name:"Adil Amod",           isKid:false},
-  {name:"Akmeer Amod",         isKid:false},
-  {name:"Christiaan van Aardt",isKid:false},
-  {name:"Dian Erasmus",        isKid:false},
-  {name:"Jameel Valley",       isKid:false},
-  {name:"Jovan Erasmus",       isKid:false},
-  {name:"Junaid Ganchee",      isKid:false},
-  {name:"Mauritz van der Mescht",isKid:false},
-  {name:"Michael Smit",        isKid:false},
-  {name:"Sahal Yunus",         isKid:false},
-  {name:"Sailesh Nagar",       isKid:false},
-  {name:"Sandeep Daya",        isKid:false},
-  {name:"Spanner Mescht",      isKid:false},
-  {name:"Stephen Remane",      isKid:false},
-  {name:"Yusuf Amod",          isKid:false},
-  {name:"Zandre de Kok",       isKid:false},
-  {name:"Zinidine Morgan",     isKid:false},
-  // SINGLE YOUTH (Phase 3)
-  {name:"Nathan Mckenzie", isKid:true},
-  {name:"Jogee",           isKid:true},
-  {name:"Huzaifah Sujee",  isKid:true},
-  {name:"Mikel Pillay",    isKid:true},
+  {name:"Shoaib Nomani",    isKid:false, preAssigned:"t1"},
+  {name:"Nomz",             isKid:false, preAssigned:"t1"},
+  {name:"Aadam Nomani",     isKid:true,  preAssigned:"t1"},
+  {name:"Rafiq Mohamed",    isKid:false, preAssigned:"t2"},
+  {name:"Ayaan Mohamed",    isKid:true,  preAssigned:"t2"},
+  {name:"Irshaad Moola",    isKid:false, preAssigned:"t3"},
+  {name:"Mohamed Moola",    isKid:true,  preAssigned:"t3"},
+  {name:"Isa Moola",        isKid:true,  preAssigned:"t3"},
+  {name:"Muhammad Mangerah",isKid:false, preAssigned:"t4"},
+  {name:"Ebrahim Mangerah", isKid:true,  preAssigned:"t4"},
+  {name:"Yusuf Ismail",     isKid:false, preAssigned:"t5"},
+  {name:"Zuhayr Ismail",    isKid:true,  preAssigned:"t5"},
+  // FAMILIES
+  {name:"Fahad",            isKid:false, family:"fam1"}, {name:"Hoosein Patel",   isKid:true,  family:"fam1"},
+  {name:"Irfaan",           isKid:false, family:"fam2"}, {name:"Amaar",           isKid:true,  family:"fam2"},
+  {name:"Azhar Sujee",      isKid:false, family:"fam3"}, {name:"Yahya Sujee",     isKid:true,  family:"fam3"},
+  {name:"Oz",               isKid:false, family:"fam4"}, {name:"Ruro",            isKid:true,  family:"fam4"},
+  {name:"Stiaan Duvenhage", isKid:false, family:"fam5"}, {name:"Dewan Duvenhage", isKid:true,  family:"fam5"},
+  {name:"Scharl",           isKid:false, family:"fam6"}, {name:"Jude",            isKid:true,  family:"fam6"}, {name:"Seth van den Berg",isKid:true,family:"fam6"},
+  {name:"Fiaz Bhikoo",      isKid:false, family:"fam7"}, {name:"Arman Bhikoo",    isKid:true,  family:"fam7"},
+  // SINGLE ADULTS
+  {name:"Adil Amod",isKid:false},{name:"Akmeer Amod",isKid:false},{name:"Christiaan van Aardt",isKid:false},
+  {name:"Dian Erasmus",isKid:false},{name:"Jameel Valley",isKid:false},{name:"Jovan Erasmus",isKid:false},
+  {name:"Junaid Ganchee",isKid:false},{name:"Mauritz van der Mescht",isKid:false},{name:"Michael Smit",isKid:false},
+  {name:"Sahal Yunus",isKid:false},{name:"Sailesh Nagar",isKid:false},{name:"Sandeep Daya",isKid:false},
+  {name:"Spanner Mescht",isKid:false},{name:"Stephen Remane",isKid:false},{name:"Yusuf Amod",isKid:false},
+  {name:"Zandre de Kok",isKid:false},{name:"Zinidine Morgan",isKid:false},
+  // SINGLE YOUTH
+  {name:"Nathan Mckenzie",isKid:true},{name:"Jogee",isKid:true},{name:"Huzaifah Sujee",isKid:true},{name:"Mikel Pillay",isKid:true},
 ];
 
-const MAX_ADULTS = 5, MAX_KIDS = 3;
-const RIVALRY_BLOCK = {fam1: 't3'}; // Fahad's family cannot go to t3
+const MAX_A=5, MAX_K=3;
+const RIVALRY={fam1:'t3'};
 
-// ═══════════════════════════════════════════════
-// MONTE CARLO SOLVER
-// ═══════════════════════════════════════════════
-function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]] } return a; }
+// ── SOLVER ────────────────────────────────────────────────────
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a;}
 
 function calcDraft(){
-  // Build initial state from anchors
-  function freshState(){
-    const s = {};
-    TEAM_DEFS.forEach(t => s[t.id] = {adults:0, kids:0});
+  // Anchor counts
+  function freshCounts(){
+    const c={};
+    TEAM_DEFS.forEach(t=>c[t.id]={a:0,k:0});
     PLAYERS.filter(p=>p.preAssigned).forEach(p=>{
-      if(p.isKid) s[p.preAssigned].kids++; else s[p.preAssigned].adults++;
+      if(p.isKid) c[p.preAssigned].k++; else c[p.preAssigned].a++;
     });
-    return s;
+    return c;
   }
 
-  // Group families
-  const familyMap = {};
-  PLAYERS.filter(p=>p.family).forEach(p=>{
-    if(!familyMap[p.family]) familyMap[p.family] = [];
-    familyMap[p.family].push(p);
-  });
-  const families = Object.entries(familyMap).map(([id,members])=>({id, members}));
+  const famMap={};
+  PLAYERS.filter(p=>p.family).forEach(p=>{if(!famMap[p.family])famMap[p.family]=[];famMap[p.family].push(p);});
+  const fams=Object.entries(famMap).map(([id,members])=>({id,members}));
+  const soloA=PLAYERS.filter(p=>!p.preAssigned&&!p.family&&!p.isKid);
+  const soloK=PLAYERS.filter(p=>!p.preAssigned&&!p.family&&p.isKid);
+  const tids=TEAM_DEFS.map(t=>t.id);
 
-  const singleAdults = PLAYERS.filter(p=>!p.preAssigned&&!p.family&&!p.isKid);
-  const singleKids   = PLAYERS.filter(p=>!p.preAssigned&&!p.family&&p.isKid);
-  const teamIds = TEAM_DEFS.map(t=>t.id);
+  for(let attempt=1;attempt<=10000;attempt++){
+    const c=freshCounts();
+    const assign={};
+    let ok=true;
 
-  let attempts = 0;
-  const MAX_ATTEMPTS = 10000;
-
-  while(attempts < MAX_ATTEMPTS){
-    attempts++;
-    const state = freshState();
-    const assign = {}; // familyId / playerName -> teamId
-    let valid = true;
-
-    // Shuffle families and single adults and kids
-    const shuffledFams   = shuffle([...families]);
-    const shuffledAdults = shuffle([...singleAdults]);
-    const shuffledKids   = shuffle([...singleKids]);
+    const sf=shuffle([...fams]);
+    const sa=shuffle([...soloA]);
+    const sk=shuffle([...soloK]);
 
     // Assign families
-    for(const fam of shuffledFams){
-      const famAdults = fam.members.filter(p=>!p.isKid).length;
-      const famKids   = fam.members.filter(p=>p.isKid).length;
-
-      let eligible = teamIds.filter(tid=>{
-        if(state[tid].adults + famAdults > MAX_ADULTS) return false;
-        if(state[tid].kids   + famKids   > MAX_KIDS)   return false;
-        if(RIVALRY_BLOCK[fam.id] && RIVALRY_BLOCK[fam.id]===tid) return false;
+    for(const fam of sf){
+      const fa=fam.members.filter(p=>!p.isKid).length;
+      const fk=fam.members.filter(p=>p.isKid).length;
+      let elig=tids.filter(tid=>{
+        if(c[tid].a+fa>MAX_A||c[tid].k+fk>MAX_K) return false;
+        if(RIVALRY[fam.id]===tid) return false;
         return true;
       });
-      if(!eligible.length){ valid=false; break; }
-      shuffle(eligible);
-      // pick lowest total
-      eligible.sort((a,b)=>(state[a].adults+state[a].kids)-(state[b].adults+state[b].kids));
-      const picked = eligible[0];
-      assign[fam.id] = picked;
-      state[picked].adults += famAdults;
-      state[picked].kids   += famKids;
+      if(!elig.length){ok=false;break;}
+      elig.sort((a,b)=>(c[a].a+c[a].k)-(c[b].a+c[b].k));
+      const p=elig[0];
+      assign[fam.id]=p; c[p].a+=fa; c[p].k+=fk;
     }
-    if(!valid) continue;
+    if(!ok) continue;
 
-    // Assign single adults
-    for(const p of shuffledAdults){
-      let eligible = teamIds.filter(tid=>state[tid].adults < MAX_ADULTS);
-      if(!eligible.length){ valid=false; break; }
-      eligible.sort((a,b)=>(state[a].adults+state[a].kids)-(state[b].adults+state[b].kids));
-      const picked = eligible[0];
-      assign[p.name] = picked;
-      state[picked].adults++;
+    // Assign solo adults
+    for(const p of sa){
+      let elig=tids.filter(tid=>c[tid].a<MAX_A);
+      if(!elig.length){ok=false;break;}
+      elig.sort((a,b)=>(c[a].a+c[a].k)-(c[b].a+c[b].k));
+      assign[p.name]=elig[0]; c[elig[0]].a++;
     }
-    if(!valid) continue;
+    if(!ok) continue;
 
-    // Assign single kids
-    for(const p of shuffledKids){
-      let eligible = teamIds.filter(tid=>state[tid].kids < MAX_KIDS);
-      if(!eligible.length){ valid=false; break; }
-      eligible.sort((a,b)=>(state[a].adults+state[a].kids)-(state[b].adults+state[b].kids));
-      const picked = eligible[0];
-      assign[p.name] = picked;
-      state[picked].kids++;
+    // Assign solo kids
+    for(const p of sk){
+      let elig=tids.filter(tid=>c[tid].k<MAX_K);
+      if(!elig.length){ok=false;break;}
+      elig.sort((a,b)=>(c[a].a+c[a].k)-(c[b].a+c[b].k));
+      assign[p.name]=elig[0]; c[elig[0]].k++;
     }
-    if(!valid) continue;
+    if(!ok) continue;
 
-    // Validate all teams are full
-    const allFull = teamIds.every(tid=>state[tid].adults===MAX_ADULTS&&state[tid].kids===MAX_KIDS);
-    if(!allFull) continue;
+    if(!tids.every(tid=>c[tid].a===MAX_A&&c[tid].k===MAX_K)) continue;
 
-    console.log(`✅ Valid draft found in ${attempts} attempt(s)`);
+    console.log(`✅ Solved in ${attempt} attempt(s)`);
 
-    // Build the sequence: Phase1 single adults, Phase2 families, Phase3 single kids
-    const phase1 = shuffledAdults.map(p=>({players:[p], teamId:assign[p.name], phase:1, type:'Single Adult'}));
-    const phase2 = shuffledFams.map(fam=>({players:fam.members, teamId:assign[fam.id], phase:2, type:'Family Package'}));
-    const phase3 = shuffledKids.map(p=>({players:[p], teamId:assign[p.name], phase:3, type:'Single Youth'}));
+    // Build sequence — anchors drawn live (Phase 0), then P1 soloA, P2 fams, P3 soloK
+    const anchors=PLAYERS.filter(p=>p.preAssigned);
+    shuffle(anchors);
+    const p0=anchors.map(p=>({players:[p],teamId:p.preAssigned,phase:0,type:'Anchor'}));
+    const p1=sa.map(p=>({players:[p],teamId:assign[p.name],phase:1,type:'Single Adult'}));
+    const p2=sf.map(fam=>({players:fam.members,teamId:assign[fam.id],phase:2,type:'Family Package'}));
+    const p3=sk.map(p=>({players:[p],teamId:assign[p.name],phase:3,type:'Single Youth'}));
 
-    return [...phase1, ...phase2, ...phase3];
+    return {seq:[...p0,...p1,...p2,...p3]};
   }
-
-  console.error(`❌ No valid draft found after ${MAX_ATTEMPTS} attempts`);
   return null;
 }
 
-// ═══════════════════════════════════════════════
-// UI
-// ═══════════════════════════════════════════════
-let draftSeq = [], currentPick = 0, isAnimating = false;
-// Live state tracking for tallies
-const liveState = {};
+// ── LIVE STATE ────────────────────────────────────────────────
+const liveState={};
 
 function buildUI(){
-  const grid = document.getElementById('roster-grid');
-  grid.innerHTML = '';
+  const grid=document.getElementById('roster-grid');
+  grid.innerHTML='';
   TEAM_DEFS.forEach(t=>{
-    liveState[t.id] = {adults:0, kids:0};
-    const card = document.createElement('div');
-    card.className = `team-card ${t.cls} border border-opacity-20`;
-    card.id = `card-${t.id}`;
-    card.innerHTML = `
+    liveState[t.id]={a:0,k:0};
+    const card=document.createElement('div');
+    card.className=`team-card ${t.cls}`;
+    card.id=`card-${t.id}`;
+    card.innerHTML=`
       <div class="px-3 pt-3 pb-2">
-        <div class="font-oswald text-sm font-semibold tracking-widest uppercase ${t.cls}-text mb-1">${t.name}</div>
+        <div class="font-oswald text-sm font-semibold tracking-widest uppercase mb-2 ${t.tcls}">${t.name}</div>
         <div class="prog-bar mb-1"><div class="prog-fill" id="prog-${t.id}" style="width:0%"></div></div>
-        <div class="text-xs text-slate-600" id="tally-${t.id}">0A · 0Y / 5A · 3Y</div>
+        <div style="font-size:11px;color:#94a3b8" id="tally-${t.id}">0 / 8</div>
       </div>
-      <div class="section-divider"></div>
-      <div class="px-2 pt-1 pb-1">
-        <div class="text-xs text-slate-700 uppercase tracking-widest px-1 mb-1" style="font-size:9px">Adults</div>
+      <div style="height:1px;background:rgba(255,255,255,.07);margin:0 8px"></div>
+      <div class="px-2 pt-2 pb-1">
+        <div class="sec-label">Adults</div>
         <div id="adults-${t.id}"></div>
       </div>
-      <div class="section-divider"></div>
+      <div style="height:1px;background:rgba(255,255,255,.07);margin:0 8px 4px"></div>
       <div class="px-2 pt-1 pb-2">
-        <div class="text-xs text-slate-700 uppercase tracking-widest px-1 mb-1" style="font-size:9px">Youth</div>
+        <div class="sec-label">Youth</div>
         <div id="kids-${t.id}"></div>
       </div>
     `;
     grid.appendChild(card);
   });
 
-  // Render anchors
-  PLAYERS.filter(p=>p.preAssigned).forEach(p=>{
-    addPlayer(p.preAssigned, p, true, false);
-    if(p.isKid) liveState[p.preAssigned].kids++; else liveState[p.preAssigned].adults++;
-    updateTally(p.preAssigned);
-  });
 }
 
-function addPlayer(tid, player, isAnchor, isFamily){
-  const containerId = player.isKid ? `kids-${tid}` : `adults-${tid}`;
-  const container = document.getElementById(containerId);
-  if(!container) return;
-  const el = document.createElement('div');
-  el.className = 'player-entry' + (isAnchor?' anchor':'') + (isFamily&&!isAnchor?' family-pick':'') + (!isAnchor&&!isFamily?' new-pick':'');
-  el.innerHTML = (isFamily?'<span style="opacity:.5;font-size:9px">👨‍👦</span> ':'') + (player.isKid?'<span style="opacity:.4">👦</span> ':'') + player.name;
+function addPlayer(tid, player, style){
+  const el=document.createElement('div');
+  el.className='player-entry';
+  if(style==='anchor') el.classList.add('anchor-style');
+  else if(style==='family') el.classList.add('new-family');
+  else el.classList.add('new-single');
+  el.textContent=(style==='family'?'👨‍👦 ':style==='anchor'?'⚓ ':'')+player.name+(player.isKid?' 👦':'');
+  const container=document.getElementById(player.isKid?`kids-${tid}`:`adults-${tid}`);
+  if(!container)return;
   container.appendChild(el);
-  setTimeout(()=>{ el.classList.add('visible'); if(!isAnchor) setTimeout(()=>{ el.classList.remove('new-pick','family-pick'); },2000); }, 40);
+  // Anchors appear immediately without animation
+  if(style==='anchor'){ el.style.opacity=1; el.style.transform='none'; el.classList.add('visible'); }
+  else { setTimeout(()=>el.classList.add('visible'),40); setTimeout(()=>{el.classList.remove('new-family','new-single');},2200); }
 }
 
 function updateTally(tid){
-  const s = liveState[tid];
-  const el = document.getElementById(`tally-${tid}`);
-  const prog = document.getElementById(`prog-${tid}`);
-  if(el) el.textContent = `${s.adults}A · ${s.kids}Y / 5A · 3Y`;
-  if(prog) prog.style.width = `${((s.adults+s.kids)/8)*100}%`;
+  const s=liveState[tid];
+  const total=s.a+s.k;
+  document.getElementById(`tally-${tid}`).textContent=`${s.a}/5 Adults · ${s.k}/3 Youth`;
+  document.getElementById(`prog-${tid}`).style.width=`${(total/8)*100}%`;
 }
 
-function setPhase(phase){
-  const el = document.getElementById('phase-badge');
-  el.className = 'phase-badge';
-  if(phase===1){ el.className='phase-badge p1'; el.textContent='🧑 Phase 1 — Single Adults'; }
-  else if(phase===2){ el.className='phase-badge p2'; el.textContent='👨‍👦 Phase 2 — Family Packages'; }
-  else if(phase===3){ el.className='phase-badge p3'; el.textContent='👦 Phase 3 — Single Youth'; }
-  else if(phase==='done'){ el.className='phase-badge done'; el.textContent='✅ Draft Complete'; }
-  else { el.className='phase-badge idle'; el.textContent='⏳ Awaiting Draft'; }
+function setPhase(ph){
+  const el=document.getElementById('phase-badge');
+  if(ph===0){el.className='phase-badge pb-idle';el.textContent='⏳ Awaiting Draft';return;}
+  if(ph==='anchor'){el.className='phase-badge pb-done';el.textContent='⚓ Phase 0 — Anchors';return;}
+  const map={1:'pb-p1 🧑 Phase 1 — Single Adults',2:'pb-p2 👨‍👦 Phase 2 — Family Packages',3:'pb-p3 👦 Phase 3 — Youth Players','done':'pb-done ✅ Draft Complete'};
+  const parts=map[ph].split(' ');
+  el.className='phase-badge '+parts[0];
+  el.textContent=map[ph].slice(parts[0].length+1);
 }
 
-function updatePickCounter(){
-  document.getElementById('pick-counter').textContent = `Pick ${currentPick} of ${draftSeq.length}`;
-}
-
-const ALL_NAMES_FOR_SPIN = PLAYERS.map(p=>p.name);
-const TEAM_NAMES_FOR_SPIN = TEAM_DEFS.map(t=>t.name);
-function rndFrom(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+// ── ANIMATION ─────────────────────────────────────────────────
+let draftSeq=[], currentPick=0, isAnimating=false;
+const ALL_SPIN=PLAYERS.map(p=>p.name);
+const TEAM_SPIN=TEAM_DEFS.map(t=>t.name);
+function rnd(arr){return arr[Math.floor(Math.random()*arr.length)];}
 
 function drawPick(){
-  if(isAnimating || currentPick >= draftSeq.length) return;
-  isAnimating = true;
-  document.getElementById('btn-draw').disabled = true;
+  if(isAnimating||currentPick>=draftSeq.length)return;
+  isAnimating=true;
+  document.getElementById('btn-draw').disabled=true;
 
-  const pick = draftSeq[currentPick];
-  const teamDef = TEAM_DEFS.find(t=>t.id===pick.teamId);
-  const isFamily = pick.phase === 2;
-  const playerLabel = pick.players.map(p=>p.name).join('\n+ ');
+  const pick=draftSeq[currentPick];
+  const td=TEAM_DEFS.find(t=>t.id===pick.teamId);
+  const isFamily=pick.phase===2;
+  const label=pick.players.map(p=>p.name).join('\n+ ');
 
-  setPhase(pick.phase);
+  setPhase(pick.phase===0?'anchor':pick.phase);
 
-  const jpEl = document.getElementById('jumbo-player');
-  const jtEl = document.getElementById('jumbo-team');
-  const ptEl = document.getElementById('jumbo-pick-type');
-  const ttEl = document.getElementById('jumbo-team-tally');
+  const jpEl=document.getElementById('jumbo-player');
+  const jtEl=document.getElementById('jumbo-team');
+  const ptEl=document.getElementById('jumbo-pick-type');
+  const ttEl=document.getElementById('jumbo-tally');
 
-  jpEl.className = 'font-oswald text-2xl font-semibold slot-value spinning whitespace-pre-line min-h-16 flex items-center justify-center leading-snug';
-  jtEl.className = 'font-oswald text-2xl font-semibold slot-value spinning min-h-16 flex items-center justify-center';
-  ptEl.textContent = '';
-  ttEl.textContent = '';
+  jpEl.className='slot-val spin'; jtEl.className='slot-val spin';
+  ptEl.textContent=''; ttEl.textContent='';
 
-  const t1 = setInterval(()=>{ jpEl.textContent = rndFrom(ALL_NAMES_FOR_SPIN); }, 75);
-  const t2 = setInterval(()=>{ jtEl.textContent = rndFrom(TEAM_NAMES_FOR_SPIN); }, 75);
+  const i1=setInterval(()=>jpEl.textContent=rnd(ALL_SPIN),75);
+  const i2=setInterval(()=>jtEl.textContent=rnd(TEAM_SPIN),75);
 
   setTimeout(()=>{
-    clearInterval(t1);
-    jpEl.textContent = playerLabel;
-    jpEl.className = 'font-oswald text-2xl font-semibold slot-value landed-player whitespace-pre-line min-h-16 flex items-center justify-center leading-snug';
-    ptEl.innerHTML = isFamily
-      ? '<span style="color:#a78bfa;font-weight:600">👨‍👦 Family Package</span>'
-      : pick.phase===1
-        ? '<span style="color:#60a5fa">🧑 Single Adult</span>'
-        : '<span style="color:#34d399">👦 Single Youth</span>';
-  }, 1500);
+    clearInterval(i1);
+    jpEl.textContent=label;
+    jpEl.className='slot-val player';
+    ptEl.innerHTML=isFamily
+      ?'<span style="color:#c4b5fd;font-weight:600">👨‍👦 Family Package</span>'
+      :pick.phase===0
+        ?'<span style="color:#fcd34d">⚓ Anchor Pick</span>'
+        :pick.phase===1
+          ?'<span style="color:#93c5fd">🧑 Single Adult</span>'
+          :'<span style="color:#6ee7b7">👦 Single Youth</span>';
+  },1500);
 
   setTimeout(()=>{
-    clearInterval(t2);
-    jtEl.textContent = teamDef.name;
-    jtEl.className = 'font-oswald text-2xl font-semibold slot-value landed-team min-h-16 flex items-center justify-center';
+    clearInterval(i2);
+    jtEl.textContent=td.name;
+    jtEl.className='slot-val team';
 
-    // Pulse card
-    const card = document.getElementById(`card-${pick.teamId}`);
-    card.classList.add('pulse-in');
-    setTimeout(()=>card.classList.remove('pulse-in'),700);
+    const card=document.getElementById(`card-${pick.teamId}`);
+    card.classList.add('card-pulse');
+    setTimeout(()=>card.classList.remove('card-pulse'),600);
 
-    // Add players
     pick.players.forEach(p=>{
-      addPlayer(pick.teamId, p, false, isFamily);
-      if(p.isKid) liveState[pick.teamId].kids++; else liveState[pick.teamId].adults++;
+      addPlayer(pick.teamId,p,isFamily?'family':'single');
+      if(p.isKid) liveState[pick.teamId].k++; else liveState[pick.teamId].a++;
     });
     updateTally(pick.teamId);
 
-    // Update team tally in jumbotron
-    const s = liveState[pick.teamId];
-    ttEl.textContent = `${s.adults}/5 Adults · ${s.kids}/3 Youth`;
+    const s=liveState[pick.teamId];
+    ttEl.textContent=`${s.a}/5 Adults · ${s.k}/3 Youth`;
 
     currentPick++;
-    updatePickCounter();
-    isAnimating = false;
+    document.getElementById('pick-counter').textContent=`Pick ${currentPick} of ${draftSeq.length}`;
+    isAnimating=false;
 
-    if(currentPick >= draftSeq.length){
-      document.getElementById('btn-draw').disabled = true;
-      document.getElementById('btn-draw').textContent = '✓ Draft Complete';
-      document.getElementById('complete-banner').style.display = 'block';
+    if(currentPick>=draftSeq.length){
+      document.getElementById('btn-draw').disabled=true;
+      document.getElementById('btn-draw').textContent='✓ Draft Complete';
+      document.getElementById('complete-banner').style.display='block';
       setPhase('done');
     } else {
-      document.getElementById('btn-draw').disabled = false;
+      document.getElementById('btn-draw').disabled=false;
     }
-  }, 2600);
+  },2600);
 }
 
 function initDraft(){
-  draftSeq = calcDraft();
-  if(!draftSeq){ alert('Draft solver failed — please reset and try again.'); return; }
-  currentPick = 0;
+  const result=calcDraft();
+  if(!result){alert('Solver failed — please reset.');return;}
+  draftSeq=result.seq;
+  currentPick=0;
   buildUI();
 
-  const jpEl = document.getElementById('jumbo-player');
-  const jtEl = document.getElementById('jumbo-team');
-  jpEl.textContent = '— — —'; jpEl.className='font-oswald text-2xl font-semibold slot-value idle whitespace-pre-line min-h-16 flex items-center justify-center';
-  jtEl.textContent = '— — —'; jtEl.className='font-oswald text-2xl font-semibold slot-value idle min-h-16 flex items-center justify-center';
-  document.getElementById('jumbo-pick-type').textContent = '';
-  document.getElementById('jumbo-team-tally').textContent = '';
-  document.getElementById('complete-banner').style.display = 'none';
-  document.getElementById('btn-draw').disabled = false;
-  document.getElementById('btn-draw').textContent = '▶ Draw Next Pick';
+  const jpEl=document.getElementById('jumbo-player');
+  const jtEl=document.getElementById('jumbo-team');
+  jpEl.textContent='— — —'; jpEl.className='slot-val idle';
+  jtEl.textContent='— — —'; jtEl.className='slot-val idle';
+  document.getElementById('jumbo-pick-type').textContent='';
+  document.getElementById('jumbo-tally').textContent='';
+  document.getElementById('complete-banner').style.display='none';
+  document.getElementById('btn-draw').disabled=false;
+  document.getElementById('btn-draw').textContent='▶ Draw Next Pick';
+  document.getElementById('pick-counter').textContent=`Pick 0 of ${draftSeq.length}`;
   setPhase(0);
-  updatePickCounter();
 }
 
-document.getElementById('btn-draw').addEventListener('click', drawPick);
-document.getElementById('btn-reset').addEventListener('click', initDraft);
+document.getElementById('btn-draw').addEventListener('click',drawPick);
+document.getElementById('btn-reset').addEventListener('click',initDraft);
 initDraft();
 </script>
 </body>
