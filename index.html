@@ -1,291 +1,418 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Official Padel Draft – LPFL</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Inter:wght@400;500;600&display=swap');
-  *{box-sizing:border-box;margin:0;padding:0}
-  #draft-root{background:#0a0e1a;color:#e8eaf6;font-family:'Inter',sans-serif;min-height:600px;padding:0 0 24px;border-radius:12px;overflow:hidden}
-  .d-header{background:#0d1b3e;border-bottom:2px solid #1e3a6e;padding:16px 20px;text-align:center}
-  .d-header h1{font-family:'Oswald',sans-serif;font-size:26px;font-weight:700;letter-spacing:3px;color:#fff;text-transform:uppercase}
-  .d-header p{font-size:11px;letter-spacing:2px;color:#5c7cbc;margin-top:2px;text-transform:uppercase}
-  .d-controls{display:flex;align-items:center;justify-content:center;gap:12px;padding:14px 20px;background:#080c18}
-  #btn-draw{background:#1a56c4;color:#fff;border:none;padding:10px 32px;border-radius:8px;font-family:'Oswald',sans-serif;font-size:16px;font-weight:600;letter-spacing:2px;cursor:pointer;text-transform:uppercase;transition:background .2s}
-  #btn-draw:hover:not(:disabled){background:#2468e0}
-  #btn-draw:disabled{background:#2a3a5c;color:#4a5a7c;cursor:not-allowed}
-  #btn-reset{background:transparent;color:#8899bb;border:1px solid #2a3a5c;padding:8px 18px;border-radius:6px;font-size:12px;cursor:pointer;letter-spacing:1px;text-transform:uppercase;transition:all .2s}
-  #btn-reset:hover{border-color:#5c7cbc;color:#b0c0dd}
-  .d-pick-counter{font-size:12px;color:#5c7cbc;letter-spacing:1px}
-  .d-jumbotron{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:12px 16px}
-  .d-jumbo-block{background:#0d1420;border:1px solid #1e3a6e;border-radius:10px;padding:16px;text-align:center;min-height:110px;display:flex;flex-direction:column;justify-content:center}
-  .d-jumbo-label{font-size:10px;letter-spacing:2px;color:#4a6aaa;text-transform:uppercase;margin-bottom:8px}
-  .d-jumbo-value{font-family:'Oswald',sans-serif;font-size:20px;font-weight:600;color:#fff;line-height:1.3;min-height:52px;display:flex;align-items:center;justify-content:center;white-space:pre-line;transition:color .15s}
-  .d-jumbo-value.flashing{color:#1a56c4}
-  .d-jumbo-value.landed-player{color:#f0c040}
-  .d-jumbo-value.landed-team{color:#40e0a0}
-  .d-roster{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;padding:0 12px}
-  .d-team-card{background:#0d1420;border-radius:8px;overflow:hidden;border:1px solid #1e3a6e}
-  .d-team-header{padding:8px 6px;text-align:center}
-  .d-team-name{font-family:'Oswald',sans-serif;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase}
-  .d-team-owner{font-size:9px;opacity:.6;margin-top:1px}
-  .d-team-count{font-size:9px;opacity:.7;margin-top:2px}
-  .d-team-players{padding:4px 6px 6px;min-height:60px}
-  .d-player-entry{font-size:10px;padding:3px 5px;margin:2px 0;border-radius:4px;background:rgba(255,255,255,0.05);color:#c8d4e8;line-height:1.3;opacity:0;transform:translateY(-4px);transition:opacity .4s,transform .4s}
-  .d-player-entry.visible{opacity:1;transform:translateY(0)}
-  .d-player-entry.anchor{opacity:.6;font-style:italic}
-  .d-complete-banner{display:none;text-align:center;padding:14px;margin:8px 16px 0;background:#0d2a1a;border:1px solid #1a5c38;border-radius:8px;font-family:'Oswald',sans-serif;font-size:18px;color:#40e0a0;letter-spacing:2px;text-transform:uppercase}
-</style>
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;600;700&family=Inter:wght@400;500;600&display=swap');
 
-<div id="draft-root">
-  <div class="d-header">
-    <h1>The Official Padel Draft</h1>
-    <p>Lowveld Padel Franchise League &mdash; Player Allocation</p>
+:root {
+  --bg:       #07090f;
+  --surface:  #0d1120;
+  --surface2: #111827;
+  --border:   #1e2a42;
+  --text:     #e2e8f0;
+  --muted:    #4a6080;
+  --t1: #e05cff; --t1d: #2a0a3a;
+  --t2: #3d9eff; --t2d: #071a3a;
+  --t3: #00d97e; --t3d: #002a1a;
+  --t4: #ff8c3d; --t4d: #2a1200;
+  --t5: #ffda3d; --t5d: #2a2000;
+  --t6: #ff4d6d; --t6d: #2a0010;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;padding:16px}
+
+/* HEADER */
+.header{text-align:center;padding:20px 16px 16px;background:linear-gradient(180deg,#0d1b3e 0%,var(--bg) 100%);border-radius:12px 12px 0 0;border-bottom:1px solid var(--border);margin-bottom:0}
+.header h1{font-family:'Oswald',sans-serif;font-size:clamp(22px,4vw,36px);font-weight:700;letter-spacing:5px;color:#fff;text-transform:uppercase}
+.header-sub{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:6px}
+.header-badge{font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;padding:3px 10px;border:1px solid var(--border);border-radius:20px}
+
+/* CONTROLS */
+.controls{display:flex;align-items:center;justify-content:center;gap:12px;padding:14px 20px;background:#080b14;border-bottom:1px solid var(--border)}
+#pick-counter{font-size:11px;color:var(--muted);letter-spacing:1px;min-width:100px;text-align:center}
+#btn-draw{background:linear-gradient(135deg,#1a4fd4,#0f3aaa);color:#fff;border:none;padding:11px 36px;border-radius:8px;font-family:'Oswald',sans-serif;font-size:16px;font-weight:600;letter-spacing:2px;cursor:pointer;text-transform:uppercase;transition:all .2s;box-shadow:0 4px 20px rgba(26,79,212,.4)}
+#btn-draw:hover:not(:disabled){background:linear-gradient(135deg,#2260e8,#1a4fd4);transform:translateY(-1px)}
+#btn-draw:disabled{background:#1a2340;color:#3a4a6a;cursor:not-allowed;box-shadow:none;transform:none}
+#btn-reset{background:transparent;color:var(--muted);border:1px solid var(--border);padding:9px 18px;border-radius:6px;font-size:11px;cursor:pointer;letter-spacing:1px;text-transform:uppercase;transition:all .2s}
+#btn-reset:hover{border-color:#4a6aaa;color:#a0b4d0}
+
+/* PHASE INDICATOR */
+.phase-bar{text-align:center;padding:8px;background:#080b14;border-bottom:1px solid var(--border)}
+#phase-indicator{display:inline-block;font-size:10px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;padding:4px 16px;border-radius:20px;border:1px solid var(--border);transition:all .4s}
+#phase-indicator.phase-family{color:#f0c040;border-color:#604800;background:#1a1200}
+#phase-indicator.phase-adult{color:#60b0ff;border-color:#1a3a6a;background:#060e1e}
+#phase-indicator.phase-youth{color:#60ffa0;border-color:#0a3a20;background:#030f08}
+#phase-indicator.phase-done{color:#c060ff;border-color:#3a1a6a;background:#0d0520}
+
+/* JUMBOTRON */
+.jumbotron{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:12px 16px;background:var(--bg)}
+.jumbo-block{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px 14px;text-align:center;min-height:120px;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden}
+.jumbo-block::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.02) 0%,transparent 60%);pointer-events:none}
+.jumbo-label{font-size:9px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:10px}
+.jumbo-value{font-family:'Oswald',sans-serif;font-size:clamp(16px,2.5vw,24px);font-weight:600;color:#fff;line-height:1.25;min-height:56px;display:flex;align-items:center;justify-content:center;white-space:pre-line;transition:color .2s}
+.jumbo-value.flashing{color:var(--border);animation:flicker .08s infinite alternate}
+@keyframes flicker{from{opacity:.7}to{opacity:1}}
+.jumbo-value.landed-player{color:#f0c040;text-shadow:0 0 20px rgba(240,192,64,.4)}
+.jumbo-value.landed-team{color:#40e0a0;text-shadow:0 0 20px rgba(64,224,160,.4)}
+.jumbo-value.idle{color:var(--muted)}
+
+/* ROSTER GRID */
+.roster-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;padding:0 12px 16px}
+.team-card{background:var(--surface);border-radius:10px;overflow:hidden;border:1px solid var(--border);transition:border-color .3s}
+.team-card.active-dest{animation:pulse-card .5s ease}
+@keyframes pulse-card{0%{box-shadow:0 0 0 0 rgba(255,255,255,.3)}100%{box-shadow:0 0 0 8px transparent}}
+
+.team-header{padding:10px 8px 8px;text-align:center;border-bottom:1px solid rgba(255,255,255,.06)}
+.team-name{font-family:'Oswald',sans-serif;font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;line-height:1.2}
+.team-tally{font-size:9px;opacity:.6;margin-top:3px;letter-spacing:.5px}
+
+.roster-section{padding:4px 6px}
+.roster-section-label{font-size:8px;letter-spacing:2px;text-transform:uppercase;opacity:.45;padding:3px 4px 1px;border-bottom:1px solid rgba(255,255,255,.04);margin-bottom:2px}
+.player-entry{font-size:9.5px;padding:3px 5px;margin:2px 0;border-radius:4px;background:rgba(255,255,255,.04);color:#b0c4de;line-height:1.3;opacity:0;transform:translateY(-6px);transition:opacity .35s,transform .35s}
+.player-entry.visible{opacity:1;transform:translateY(0)}
+.player-entry.anchor{opacity:.55;font-style:italic;color:#8898aa}
+.player-entry.new-pick{background:rgba(240,192,64,.12);color:#f0d080}
+
+/* COMPLETE BANNER */
+.complete-banner{display:none;text-align:center;padding:16px;margin:0 14px 14px;background:linear-gradient(135deg,#0d2a1a,#0a1428);border:1px solid #1a5c38;border-radius:10px;font-family:'Oswald',sans-serif;font-size:20px;color:#40e0a0;letter-spacing:3px;text-transform:uppercase}
+
+/* TEAM COLOUR THEMING */
+.t1 .team-header{background:var(--t1d)} .t1 .team-name{color:var(--t1)} .t1{border-top:3px solid var(--t1)}
+.t2 .team-header{background:var(--t2d)} .t2 .team-name{color:var(--t2)} .t2{border-top:3px solid var(--t2)}
+.t3 .team-header{background:var(--t3d)} .t3 .team-name{color:var(--t3)} .t3{border-top:3px solid var(--t3)}
+.t4 .team-header{background:var(--t4d)} .t4 .team-name{color:var(--t4)} .t4{border-top:3px solid var(--t4)}
+.t5 .team-header{background:var(--t5d)} .t5 .team-name{color:var(--t5)} .t5{border-top:3px solid var(--t5)}
+.t6 .team-header{background:var(--t6d)} .t6 .team-name{color:var(--t6)} .t6{border-top:3px solid var(--t6)}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>⚡ The Official Padel Draft ⚡</h1>
+  <div class="header-sub">
+    <span class="header-badge">6 Teams</span>
+    <span class="header-badge">48 Players</span>
+    <span class="header-badge">LPFL Season 4</span>
   </div>
-  <div class="d-controls">
-    <span class="d-pick-counter" id="pick-counter">Pick 0 of 0</span>
-    <button id="btn-draw">Draw Next Pick</button>
-    <button id="btn-reset">Reset Draft</button>
-  </div>
-  <div class="d-jumbotron">
-    <div class="d-jumbo-block">
-      <div class="d-jumbo-label">The Player(s)</div>
-      <div class="d-jumbo-value" id="jumbo-player">—</div>
-    </div>
-    <div class="d-jumbo-block">
-      <div class="d-jumbo-label">The Destination</div>
-      <div class="d-jumbo-value" id="jumbo-team">—</div>
-    </div>
-  </div>
-  <div class="d-roster" id="roster"></div>
-  <div class="d-complete-banner" id="complete-banner">🏆 Draft Complete — All 40 Players Assigned 🏆</div>
 </div>
 
+<div class="controls">
+  <span id="pick-counter">Pick 0 of 0</span>
+  <button id="btn-draw">▶ Draw Next Pick</button>
+  <button id="btn-reset">↺ Reset</button>
+</div>
+
+<div class="phase-bar">
+  <span id="phase-indicator">Awaiting Draft</span>
+</div>
+
+<div class="jumbotron">
+  <div class="jumbo-block">
+    <div class="jumbo-label">🎯 The Player(s)</div>
+    <div class="jumbo-value idle" id="jumbo-player">— — —</div>
+  </div>
+  <div class="jumbo-block">
+    <div class="jumbo-label">🏠 The Destination</div>
+    <div class="jumbo-value idle" id="jumbo-team">— — —</div>
+  </div>
+</div>
+
+<div class="roster-grid" id="roster"></div>
+<div class="complete-banner" id="complete-banner">🏆 Draft Complete — All 48 Players Assigned 🏆</div>
+
 <script>
+// ─── TEAMS ───────────────────────────────────────────────
 const TEAMS = [
-  {id:'aa',name:'Avalanche Aces',owner:'Rafiq Mohamed',nameColor:'#60a0ff',hdrBg:'#1e3666'},
-  {id:'df',name:'Desert Falcons',owner:'Muhammad Mangerah',nameColor:'#ff9040',hdrBg:'#3a2010'},
-  {id:'ra',name:'Rulo Apaches',owner:'Shoaib Nomani',nameColor:'#c060ff',hdrBg:'#28103a'},
-  {id:'ib',name:'Ice Breakers',owner:'Irshaad Moola',nameColor:'#40c8ff',hdrBg:'#0e2436'},
-  {id:'sv',name:'Sonic Viboras',owner:'Yusuf Ismail',nameColor:'#40ff90',hdrBg:'#103a20'},
-];
-const MAX = 8;
-
-const ALL_PLAYERS = [
-  {name:'Ayaan Mohamed',age:10,rating:1.0,father:'Rafiq Mohamed'},
-  {name:'Ebrahim Mangerah',age:9,rating:1.0,father:'Muhammad Mangerah'},
-  {name:'Zandre de Kok',age:23,rating:1.0,father:null},
-  {name:'Mauritz van der Mescht',age:25,rating:1.0,father:null},
-  {name:'Zinidine Morgan',age:26,rating:1.0,father:null},
-  {name:'Sandeep Daya',age:36,rating:1.0,father:null},
-  {name:'Yusuf Amod',age:27,rating:1.0,father:null},
-  {name:'Huzaifah Sujee',age:13,rating:1.0,father:null},
-  {name:'Yahya Sujee',age:12,rating:1.0,father:null},
-  {name:'Sahal Yunus',age:26,rating:1.0,father:null},
-  {name:'Mikel Pillay',age:13,rating:1.0,father:null},
-  {name:'Dian Erasmus',age:35,rating:1.0,father:null},
-  {name:'Adil Amod',age:35,rating:1.0,father:null},
-  {name:'Jameel Valley',age:35,rating:1.0,father:null},
-  {name:'Stephen Remane',age:31,rating:1.0,father:null},
-  {name:'Isa Moola',age:9,rating:1.0,father:'Irshaad Moola'},
-  {name:'Ruro',age:12,rating:1.0,father:'Oz'},
-  {name:'Michael Smit',age:32,rating:1.12,father:null},
-  {name:'Aadam Nomani',age:10,rating:1.2,father:'Nomz'},
-  {name:'Zuhayr Ismail',age:10,rating:1.2,father:'Yusuf Ismail'},
-  {name:'Nathan Mckenzie',age:14,rating:1.2,father:null},
-  {name:'Seth van den Berg',age:12,rating:1.2,father:'Scharl'},
-  {name:'Hoosein Patel',age:15,rating:1.2,father:null},
-  {name:'Sailesh Nagar',age:54,rating:1.2,father:null},
-  {name:'Shoaib Nomani',age:76,rating:1.2,father:null},
-  {name:'Arman Bhikoo',age:11,rating:1.2,father:null},
-  {name:'Mohamed Moola',age:10,rating:1.2,father:'Irshaad Moola'},
-  {name:'Jogee',age:12,rating:1.2,father:null},
-  {name:'Jovan Erasmus',age:31,rating:1.83,father:null},
-  {name:'Akmeer Amod',age:32,rating:1.7,father:null},
-  {name:'Jude',age:12,rating:1.7,father:null},
-  {name:'Rafiq Mohamed',age:45,rating:2.5,father:null},
-  {name:'Muhammad Mangerah',age:45,rating:2.5,father:null},
-  {name:'Yusuf Ismail',age:45,rating:2.5,father:null},
-  {name:'Nomz',age:45,rating:2.5,father:null},
-  {name:'Christiaan van Aardt',age:31,rating:2.5,father:null},
-  {name:'Fiaz Bhikoo',age:45,rating:2.5,father:null},
-  {name:'Irshaad Moola',age:45,rating:2.5,father:null},
-  {name:'Scharl',age:45,rating:2.5,father:null},
-  {name:'Oz',age:45,rating:2.5,father:null},
+  {id:'t1', name:'Team 1', cls:'t1', color:'#e05cff'},
+  {id:'t2', name:'Team 2', cls:'t2', color:'#3d9eff'},
+  {id:'t3', name:'Team 3', cls:'t3', color:'#00d97e'},
+  {id:'t4', name:'Team 4', cls:'t4', color:'#ff8c3d'},
+  {id:'t5', name:'Team 5', cls:'t5', color:'#ffda3d'},
+  {id:'t6', name:'Team 6', cls:'t6', color:'#ff4d6d'},
 ];
 
-// Anchors: owner families stay with their own team
+// ─── PLAYERS ─────────────────────────────────────────────
+const ADULTS = [
+  'Adil Amod','Akmeer Amod','Azhar Sujee','Christiaan van Aardt',
+  'Dian Erasmus','Durell','Fahad','Fiaz Bhikoo','Irshaad Moola',
+  'Jameel Valley','Jovan Erasmus','Junaid Ganchee','Mauritz van der Mescht',
+  'Michael Smit','Muhammad Mangerah','Nomz','Oz','Rafiq Mohamed',
+  'Sahal Yunus','Sailesh Nagar','Sandeep Daya','Scharl','Shoaib Nomani',
+  'Spanner Mescht','Stephen Remane','Stiaan Duvenhage','Yusuf Amod',
+  'Yusuf Ismail','Zandre de Kok','Zinidine Morgan'
+];
+const YOUTH = [
+  'Jude','Aadam Nomani','Nathan Mckenzie','Seth van den Berg','Arman Bhikoo',
+  'Mohamed Moola','Hoosein Patel','Jogee','Zuhayr Ismail','Ayaan Mohamed',
+  'Mikel Pillay','Ebrahim Mangerah','Huzaifah Sujee','Yahya Sujee',
+  'Isa Moola','Ruro','Dewan Duvenhage','Aymaan'
+];
+const ALL_NAMES = [...ADULTS, ...YOUTH];
+
+// ─── ANCHORS ─────────────────────────────────────────────
+// t1=Shoaib/Nomani family, t2=Rafiq/Ayaan, t3=Irshaad/Moola family, t4=Muhammad/Ebrahim, t5=Yusuf/Zuhayr, t6=empty
 const ANCHORS = {
-  aa: ['Rafiq Mohamed','Ayaan Mohamed'],
-  df: ['Muhammad Mangerah','Ebrahim Mangerah'],
-  ra: ['Shoaib Nomani','Aadam Nomani','Nomz'],
-  ib: ['Irshaad Moola','Mohamed Moola','Isa Moola'],
-  sv: ['Yusuf Ismail','Zuhayr Ismail'],
+  t1: { adults:['Shoaib Nomani','Nomz'], youth:['Aadam Nomani'] },
+  t2: { adults:['Rafiq Mohamed'],        youth:['Ayaan Mohamed'] },
+  t3: { adults:['Irshaad Moola'],        youth:['Mohamed Moola','Isa Moola'] },
+  t4: { adults:['Muhammad Mangerah'],    youth:['Ebrahim Mangerah'] },
+  t5: { adults:['Yusuf Ismail'],         youth:['Zuhayr Ismail'] },
+  t6: { adults:[],                       youth:[] },
 };
 
-// Explicit packages: Scharl+Seth together, Jude solo
-// (override father-son auto-detection for Scharl's family)
-const EXPLICIT_PACKAGES = [
-  ['Scharl','Seth van den Berg'], // Scharl + Seth together
-  ['Jude'],                        // Jude solo
-];
-const EXPLICIT_NAMES = new Set(EXPLICIT_PACKAGES.flat());
+// ─── FAMILY PACKAGES (father→[children]) ─────────────────
+// Only for NON-anchored players
+// Scharl: Seth stays with Scharl, Jude is SOLO (per previous instruction)
+// Oz → Ruro, Azhar → Yahya, Durell → Mikel, Fahad → Hoosein, Stiaan → Dewan
+const FAMILY_LINKS = {
+  'Scharl':          ['Seth van den Berg'], // Jude deliberately excluded (solo)
+  'Oz':              ['Ruro'],
+  'Azhar Sujee':     ['Yahya Sujee'],
+  'Durell':          ['Mikel Pillay'],
+  'Fahad':           ['Hoosein Patel'],
+  'Stiaan Duvenhage':['Dewan Duvenhage'],
+};
 
-let draftSequence=[], currentPick=0, isAnimating=false;
+// ─── RIVALRY ─────────────────────────────────────────────
+// Fahad cannot go to t3 (Irshaad Moola's team)
+const RIVALRY_BLOCK = { 'Fahad': 't3' };
 
-function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+const MAX_ADULTS = 5;
+const MAX_YOUTH  = 3;
 
+// ─── STATE ───────────────────────────────────────────────
+let draftSequence = [], currentPick = 0, isAnimating = false;
+
+// ─── HELPERS ─────────────────────────────────────────────
+function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]] } return a }
+function rndFrom(arr){ return arr[Math.floor(Math.random()*arr.length)] }
+function isYouth(name){ return YOUTH.includes(name) }
+
+// ─── DRAFT CALCULATION ───────────────────────────────────
 function calcDraft(){
-  const anchoredNames=new Set(Object.values(ANCHORS).flat());
-  const remaining=ALL_PLAYERS.filter(p=>!anchoredNames.has(p.name));
-  const playerNames=new Set(ALL_PLAYERS.map(p=>p.name));
+  const anchoredNames = new Set([
+    ...Object.values(ANCHORS).flatMap(a=>[...a.adults,...a.youth])
+  ]);
 
-  const packages=[];
-  const usedNames=new Set([...EXPLICIT_NAMES]);
-
-  // Add explicit packages first
-  EXPLICIT_PACKAGES.forEach(names=>{
-    packages.push(names);
+  // Build counts from anchors
+  const counts = {};
+  TEAMS.forEach(t => counts[t.id] = {
+    adults: (ANCHORS[t.id]?.adults||[]).length,
+    youth:  (ANCHORS[t.id]?.youth||[]).length
   });
 
-  // Auto-group remaining by father (excluding explicit names)
-  remaining.forEach(player=>{
-    if(usedNames.has(player.name))return;
-    const myFather=player.father&&playerNames.has(player.father)&&remaining.find(p=>p.name===player.father&&!usedNames.has(p.name));
-    if(myFather) return; // handled when father is processed
-    const myChildren=remaining.filter(p=>p.father===player.name&&!usedNames.has(p.name)&&!EXPLICIT_NAMES.has(p.name));
-    if(myChildren.length>0){
-      const pkg=[player,...myChildren].map(p=>p.name);
-      pkg.forEach(n=>usedNames.add(n));
-      packages.push(pkg);
-    } else {
-      usedNames.add(player.name);
-      packages.push([player.name]);
-    }
+  // Identify all non-anchored players
+  const freeAdults = ADULTS.filter(n=>!anchoredNames.has(n));
+  const freeYouth  = YOUTH.filter(n=>!anchoredNames.has(n));
+
+  // Build packages
+  const usedInFamily = new Set();
+  const familyPkgs = []; // [{names, hasAdult, hasYouth}]
+
+  Object.entries(FAMILY_LINKS).forEach(([father, children]) => {
+    if(anchoredNames.has(father)) return;
+    const pkg = [father];
+    children.forEach(c=>{ if(!anchoredNames.has(c)){ pkg.push(c); usedInFamily.add(c); }});
+    usedInFamily.add(father);
+    familyPkgs.push(pkg);
   });
 
-  shuffle(packages);
-  packages.sort((a,b)=>b.length-a.length);
+  // Solo adults/youth not in any family
+  const soloAdults = freeAdults.filter(n=>!usedInFamily.has(n));
+  const soloYouth  = freeYouth.filter(n=>!usedInFamily.has(n));
 
-  // Assign using lowest-headcount round-robin
-  const tempCounts={};
-  TEAMS.forEach(t=>tempCounts[t.id]=ANCHORS[t.id]?ANCHORS[t.id].length:0);
-  const seq=[];
+  // Shuffle all
+  shuffle(familyPkgs);
+  shuffle(soloAdults);
+  shuffle(soloYouth);
 
-  packages.forEach(pkg=>{
-    const sz=pkg.length;
-    const sorted=TEAMS.map(t=>({id:t.id,count:tempCounts[t.id]})).sort((a,b)=>a.count-b.count);
-    const minC=sorted[0].count;
-    let eligible=sorted.filter(c=>c.count===minC&&c.count+sz<=MAX);
-    if(!eligible.length) eligible=sorted.filter(c=>c.count+sz<=MAX);
-    if(!eligible.length) eligible=[sorted[0]];
-    const picked=eligible[Math.floor(Math.random()*eligible.length)];
-    tempCounts[picked.id]+=sz;
-    seq.push({players:pkg,teamId:picked.id});
-  });
+  // Assign function
+  const seq = [];
+  function assign(pkg, phase){
+    const adultCount = pkg.filter(n=>!isYouth(n)).length;
+    const youthCount = pkg.filter(n=>isYouth(n)).length;
+
+    // Filter eligible teams
+    let eligible = TEAMS.filter(t=>{
+      if(counts[t.id].adults + adultCount > MAX_ADULTS) return false;
+      if(counts[t.id].youth  + youthCount > MAX_YOUTH)  return false;
+      // Rivalry block
+      for(const name of pkg){
+        if(RIVALRY_BLOCK[name] && RIVALRY_BLOCK[name]===t.id) return false;
+      }
+      return true;
+    });
+
+    if(!eligible.length) eligible = TEAMS.slice(); // fallback
+
+    // Pick lowest total headcount
+    eligible.sort((a,b)=>{
+      const ta=counts[a.id].adults+counts[a.id].youth;
+      const tb=counts[b.id].adults+counts[b.id].youth;
+      return ta-tb;
+    });
+    const minCount = counts[eligible[0].id].adults + counts[eligible[0].id].youth;
+    const tied = eligible.filter(t=>counts[t.id].adults+counts[t.id].youth===minCount);
+    const picked = rndFrom(tied);
+
+    counts[picked.id].adults += adultCount;
+    counts[picked.id].youth  += youthCount;
+    seq.push({ players: pkg, teamId: picked.id, phase });
+  }
+
+  // Phase 1: Family packages
+  familyPkgs.forEach(pkg => assign(pkg, 'family'));
+  // Phase 2: Solo adults
+  soloAdults.forEach(n => assign([n], 'adult'));
+  // Phase 3: Solo youth
+  soloYouth.forEach(n => assign([n], 'youth'));
+
   return seq;
 }
 
+// ─── UI BUILD ────────────────────────────────────────────
 function buildUI(){
-  const roster=document.getElementById('roster');
-  roster.innerHTML='';
+  const grid = document.getElementById('roster');
+  grid.innerHTML = '';
   TEAMS.forEach(t=>{
-    const card=document.createElement('div');
-    card.className='d-team-card';
-    card.id=`card-${t.id}`;
-    card.innerHTML=`
-      <div class="d-team-header" style="background:${t.hdrBg}">
-        <div class="d-team-name" style="color:${t.nameColor}">${t.name}</div>
-        <div class="d-team-owner" style="color:${t.nameColor}">${t.owner}</div>
-        <div class="d-team-count" id="count-${t.id}" style="color:${t.nameColor}">0 / ${MAX}</div>
+    const card = document.createElement('div');
+    card.className = `team-card ${t.cls}`;
+    card.id = `card-${t.id}`;
+    card.innerHTML = `
+      <div class="team-header">
+        <div class="team-name">${t.name}</div>
+        <div class="team-tally" id="tally-${t.id}">0 / 8</div>
       </div>
-      <div class="d-team-players" id="players-${t.id}"></div>
+      <div class="roster-section">
+        <div class="roster-section-label">Adults</div>
+        <div id="adults-${t.id}"></div>
+      </div>
+      <div class="roster-section">
+        <div class="roster-section-label">Youth</div>
+        <div id="youth-${t.id}"></div>
+      </div>
     `;
-    roster.appendChild(card);
+    grid.appendChild(card);
   });
-  Object.entries(ANCHORS).forEach(([tid,names])=>{
-    names.forEach(n=>addPlayerToCard(tid,n,true));
-    updateCount(tid);
+
+  // Render anchors
+  Object.entries(ANCHORS).forEach(([tid, groups])=>{
+    groups.adults.forEach(n=>addPlayer(tid,n,true,false));
+    groups.youth.forEach(n=>addPlayer(tid,n,true,true));
+    updateTally(tid);
   });
 }
 
-function addPlayerToCard(tid,playerName,isAnchor){
-  const container=document.getElementById(`players-${tid}`);
-  if(!container)return;
-  const el=document.createElement('div');
-  el.className='d-player-entry'+(isAnchor?' anchor':'');
-  el.textContent=playerName;
+function addPlayer(tid, name, isAnchor, isYouthP){
+  const youth = isYouthP !== undefined ? isYouthP : isYouth(name);
+  const container = document.getElementById(youth ? `youth-${tid}` : `adults-${tid}`);
+  if(!container) return;
+  const el = document.createElement('div');
+  el.className = 'player-entry' + (isAnchor?' anchor':'') + (!isAnchor?' new-pick':'');
+  el.textContent = name;
   container.appendChild(el);
-  setTimeout(()=>el.classList.add('visible'),30);
+  setTimeout(()=>el.classList.add('visible'), 40);
+  setTimeout(()=>el.classList.remove('new-pick'), 1800);
 }
 
-function updateCount(tid){
-  const el=document.getElementById(`count-${tid}`);
-  if(!el)return;
-  const count=document.getElementById(`players-${tid}`).querySelectorAll('.d-player-entry').length;
-  el.textContent=`${count} / ${MAX}`;
-}
-
-function initDraft(){
-  draftSequence=calcDraft();
-  currentPick=0;
-  buildUI();
-  document.getElementById('jumbo-player').textContent='—';
-  document.getElementById('jumbo-player').className='d-jumbo-value';
-  document.getElementById('jumbo-team').textContent='—';
-  document.getElementById('jumbo-team').className='d-jumbo-value';
-  document.getElementById('complete-banner').style.display='none';
-  document.getElementById('btn-draw').disabled=false;
-  document.getElementById('btn-draw').textContent='Draw Next Pick';
-  updatePickCounter();
+function updateTally(tid){
+  const el = document.getElementById(`tally-${tid}`);
+  if(!el) return;
+  const a = document.getElementById(`adults-${tid}`).querySelectorAll('.player-entry').length;
+  const y = document.getElementById(`youth-${tid}`).querySelectorAll('.player-entry').length;
+  el.textContent = `${a+y} / 8  (${a}A · ${y}Y)`;
 }
 
 function updatePickCounter(){
-  document.getElementById('pick-counter').textContent=`Pick ${currentPick} of ${draftSequence.length}`;
+  document.getElementById('pick-counter').textContent = `Pick ${currentPick} of ${draftSequence.length}`;
 }
 
-function rndPlayer(){return ALL_PLAYERS[Math.floor(Math.random()*ALL_PLAYERS.length)].name}
-function rndTeam(){return TEAMS[Math.floor(Math.random()*TEAMS.length)].name}
+function setPhase(phase){
+  const el = document.getElementById('phase-indicator');
+  el.className = '';
+  if(phase==='family'){ el.textContent='🏠 Phase 1 — Family Packages'; el.classList.add('phase-family'); }
+  else if(phase==='adult'){ el.textContent='🧑 Phase 2 — Solo Adults'; el.classList.add('phase-adult'); }
+  else if(phase==='youth'){ el.textContent='👦 Phase 3 — Youth Players'; el.classList.add('phase-youth'); }
+  else if(phase==='done'){ el.textContent='✅ Draft Complete'; el.classList.add('phase-done'); }
+  else { el.textContent='Awaiting Draft'; }
+}
 
+// ─── ANIMATION ───────────────────────────────────────────
 function drawPick(){
-  if(isAnimating||currentPick>=draftSequence.length)return;
-  isAnimating=true;
-  document.getElementById('btn-draw').disabled=true;
+  if(isAnimating || currentPick>=draftSequence.length) return;
+  isAnimating = true;
+  document.getElementById('btn-draw').disabled = true;
 
-  const pick=draftSequence[currentPick];
-  const teamObj=TEAMS.find(t=>t.id===pick.teamId);
-  const playerLabel=pick.players.join('\n+ ');
+  const pick = draftSequence[currentPick];
+  const teamObj = TEAMS.find(t=>t.id===pick.teamId);
+  const playerLabel = pick.players.join('\n+ ');
 
-  const jpEl=document.getElementById('jumbo-player');
-  const jtEl=document.getElementById('jumbo-team');
-  jpEl.className='d-jumbo-value flashing';
-  jtEl.className='d-jumbo-value flashing';
+  setPhase(pick.phase);
 
-  const t1=setInterval(()=>jpEl.textContent=rndPlayer(),80);
-  const t2=setInterval(()=>jtEl.textContent=rndTeam(),80);
+  const jpEl = document.getElementById('jumbo-player');
+  const jtEl = document.getElementById('jumbo-team');
+  jpEl.className = 'jumbo-value flashing';
+  jtEl.className = 'jumbo-value flashing';
+
+  const t1 = setInterval(()=>{ jpEl.textContent = rndFrom(ALL_NAMES); }, 75);
+  const t2 = setInterval(()=>{ jtEl.textContent = rndFrom(TEAMS).name; }, 75);
 
   setTimeout(()=>{
     clearInterval(t1);
-    jpEl.textContent=playerLabel;
-    jpEl.className='d-jumbo-value landed-player';
-  },1500);
+    jpEl.textContent = playerLabel;
+    jpEl.className = 'jumbo-value landed-player';
+  }, 1500);
 
   setTimeout(()=>{
     clearInterval(t2);
-    jtEl.textContent=teamObj.name;
-    jtEl.className='d-jumbo-value landed-team';
-    pick.players.forEach(pn=>addPlayerToCard(pick.teamId,pn,false));
-    updateCount(pick.teamId);
+    jtEl.textContent = teamObj.name;
+    jtEl.className = 'jumbo-value landed-team';
+
+    // Pulse the card
+    const card = document.getElementById(`card-${pick.teamId}`);
+    card.classList.add('active-dest');
+    setTimeout(()=>card.classList.remove('active-dest'),600);
+
+    pick.players.forEach(n => addPlayer(pick.teamId, n, false));
+    updateTally(pick.teamId);
     currentPick++;
     updatePickCounter();
-    isAnimating=false;
-    if(currentPick>=draftSequence.length){
-      document.getElementById('btn-draw').disabled=true;
-      document.getElementById('btn-draw').textContent='Draft Complete';
-      document.getElementById('complete-banner').style.display='block';
+    isAnimating = false;
+
+    if(currentPick >= draftSequence.length){
+      document.getElementById('btn-draw').disabled = true;
+      document.getElementById('btn-draw').textContent = '✓ Draft Complete';
+      document.getElementById('complete-banner').style.display = 'block';
+      setPhase('done');
     } else {
-      document.getElementById('btn-draw').disabled=false;
+      document.getElementById('btn-draw').disabled = false;
     }
-  },2500);
+  }, 2600);
 }
 
-document.getElementById('btn-draw').addEventListener('click',drawPick);
-document.getElementById('btn-reset').addEventListener('click',initDraft);
+// ─── INIT ─────────────────────────────────────────────────
+function initDraft(){
+  draftSequence = calcDraft();
+  currentPick = 0;
+  buildUI();
+  document.getElementById('jumbo-player').textContent = '— — —';
+  document.getElementById('jumbo-player').className = 'jumbo-value idle';
+  document.getElementById('jumbo-team').textContent = '— — —';
+  document.getElementById('jumbo-team').className = 'jumbo-value idle';
+  document.getElementById('complete-banner').style.display = 'none';
+  document.getElementById('btn-draw').disabled = false;
+  document.getElementById('btn-draw').textContent = '▶ Draw Next Pick';
+  setPhase('waiting');
+  updatePickCounter();
+}
+
+document.getElementById('btn-draw').addEventListener('click', drawPick);
+document.getElementById('btn-reset').addEventListener('click', initDraft);
 initDraft();
 </script>
+</body>
+</html>
