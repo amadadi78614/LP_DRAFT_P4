@@ -1,531 +1,134 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LPFL Padel Draft – Season 4</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>LP Legacy League Draft Night</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap');
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Inter',sans-serif;background:#0f172a;color:#f1f5f9;min-height:100vh;}
-.font-oswald{font-family:'Oswald',sans-serif;}
-
-/* Glass */
-.glass{background:rgba(30,41,59,0.7);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.1);}
-
-/* Team borders */
-.tb1{border-top:5px solid #ef4444;}
-.tb2{border-top:5px solid #3b82f6;}
-.tb3{border-top:5px solid #10b981;}
-.tb4{border-top:5px solid #eab308;}
-.tb5{border-top:5px solid #a855f7;}
-.tb6{border-top:5px solid #f97316;}
-
-/* Team name colours */
-.tn1{color:#fca5a5;} .tn2{color:#93c5fd;} .tn3{color:#6ee7b7;}
-.tn4{color:#fde68a;} .tn5{color:#d8b4fe;} .tn6{color:#fdba74;}
-
-/* Player list items */
-.player-item{
-  opacity:0; transform:translateY(8px);
-  animation:slideUp 0.4s ease forwards;
-  padding:3px 6px; border-radius:4px; font-size:12px;
-}
-@keyframes slideUp{to{opacity:1;transform:translateY(0);}}
-.player-item.new-single{background:rgba(96,165,250,0.15);color:#bfdbfe;font-weight:600;}
-.player-item.new-family{background:rgba(167,139,250,0.18);color:#ddd6fe;font-weight:600;}
-.player-item.new-anchor{background:rgba(251,191,36,0.12);color:#fde68a;font-weight:600;}
-.player-item.settled{background:rgba(255,255,255,0.05);color:#cbd5e1;}
-
-/* Slot machine */
-.slot{
-  font-family:'Oswald',sans-serif; font-size:clamp(20px,3vw,30px);
-  font-weight:700; letter-spacing:1px; transition:color .15s;
-  min-height:70px; display:flex; align-items:center; justify-content:center;
-  white-space:pre-line; text-align:center; line-height:1.25;
-}
-.slot.idle{color:#1e3a5f;}
-.slot.spin{color:#334155;animation:flicker .07s infinite alternate;}
-.slot.player{color:#fcd34d;text-shadow:0 0 28px rgba(252,211,77,.5);}
-.slot.team{color:#34d399;text-shadow:0 0 28px rgba(52,211,153,.45);}
-@keyframes flicker{from{opacity:.4}to{opacity:1}}
-
-/* Phase badge */
-.phase-badge{
-  display:inline-flex;align-items:center;gap:6px;
-  padding:5px 16px;border-radius:20px;
-  font-size:11px;letter-spacing:1.5px;text-transform:uppercase;font-weight:600;
-  transition:all .4s;
-}
-.pb-idle{background:#1e293b;border:1px solid #334155;color:#475569;}
-.pb-anchor{background:rgba(252,211,77,.12);border:1px solid rgba(252,211,77,.35);color:#fcd34d;}
-.pb-p1{background:rgba(96,165,250,.12);border:1px solid rgba(96,165,250,.35);color:#93c5fd;}
-.pb-p2{background:rgba(167,139,250,.12);border:1px solid rgba(167,139,250,.35);color:#c4b5fd;}
-.pb-p3{background:rgba(52,211,153,.12);border:1px solid rgba(52,211,153,.35);color:#6ee7b7;}
-.pb-done{background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.35);color:#34d399;}
-
-/* Buttons */
-.btn-primary{
-  background:linear-gradient(135deg,#4f46e5,#4338ca);color:#fff;
-  border:none;padding:12px 32px;border-radius:10px;
-  font-family:'Oswald',sans-serif;font-size:15px;font-weight:600;
-  letter-spacing:2px;cursor:pointer;text-transform:uppercase;
-  transition:all .2s;box-shadow:0 4px 20px rgba(79,70,229,.4);
-}
-.btn-primary:hover:not(:disabled){background:linear-gradient(135deg,#6366f1,#4f46e5);transform:translateY(-1px);}
-.btn-primary:disabled{background:#1e293b;color:#334155;cursor:not-allowed;box-shadow:none;transform:none;}
-.btn-draw{
-  background:linear-gradient(135deg,#059669,#047857);color:#fff;
-  border:none;padding:12px 32px;border-radius:10px;
-  font-family:'Oswald',sans-serif;font-size:15px;font-weight:600;
-  letter-spacing:2px;cursor:pointer;text-transform:uppercase;
-  transition:all .2s;box-shadow:0 4px 20px rgba(5,150,105,.4);
-}
-.btn-draw:hover:not(:disabled){background:linear-gradient(135deg,#10b981,#059669);transform:translateY(-1px);}
-.btn-draw:disabled{background:#1e293b;color:#334155;cursor:not-allowed;box-shadow:none;transform:none;}
-.btn-reset{
-  background:transparent;border:1px solid #334155;color:#64748b;
-  padding:10px 20px;border-radius:8px;font-size:12px;cursor:pointer;
-  letter-spacing:1px;text-transform:uppercase;transition:all .2s;
-}
-.btn-reset:hover{border-color:#475569;color:#94a3b8;}
-
-/* Progress bar */
-.prog-track{height:4px;border-radius:2px;background:rgba(255,255,255,0.08);overflow:hidden;margin-top:4px;}
-.prog-fill{height:100%;border-radius:2px;transition:width .5s ease;}
-.pf1{background:#ef4444;} .pf2{background:#3b82f6;} .pf3{background:#10b981;}
-.pf4{background:#eab308;} .pf5{background:#a855f7;} .pf6{background:#f97316;}
-
-/* Card pulse */
-.card-pulse{animation:cpulse .5s ease;}
-@keyframes cpulse{0%{box-shadow:0 0 0 0 rgba(255,255,255,.25)}100%{box-shadow:0 0 0 12px transparent}}
-
-/* Complete banner */
-#complete-banner{
-  display:none;
-  background:linear-gradient(135deg,rgba(5,46,22,.9),rgba(15,23,42,.95));
-  border:1px solid #065f46;border-radius:12px;
-  padding:20px;text-align:center;
-  font-family:'Oswald',sans-serif;font-size:24px;
-  color:#34d399;letter-spacing:3px;text-transform:uppercase;
-  margin-top:24px;
-}
-
-::-webkit-scrollbar{width:4px}
-::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:#1e293b;border-radius:2px}
+*{box-sizing:border-box;margin:0;padding:0}body{font-family:Inter,sans-serif;background:#061009;color:#f1f5f9;min-height:100vh}.font-oswald{font-family:Oswald,sans-serif}.glass{background:rgba(10,22,14,.86);backdrop-filter:blur(10px);border:1px solid rgba(212,160,55,.22)}
+.tb1{border-top:5px solid #8b3dff}.tb2{border-top:5px solid #a8b99d}.tb3{border-top:5px solid #f28c18}.tb4{border-top:5px solid #8eea21}.tb5{border-top:5px solid #0ea5e9}.tb6{border-top:5px solid #b97912}
+.tn1{color:#c4b5fd}.tn2{color:#d9e6d0}.tn3{color:#fdba74}.tn4{color:#bef264}.tn5{color:#7dd3fc}.tn6{color:#facc15}.pf1{background:#8b3dff}.pf2{background:#a8b99d}.pf3{background:#f28c18}.pf4{background:#8eea21}.pf5{background:#0ea5e9}.pf6{background:#b97912}
+.player-item{opacity:0;transform:translateY(8px);animation:slideUp .35s ease forwards;padding:4px 7px;border-radius:4px;font-size:12px;background:rgba(255,255,255,.055);color:#cbd5e1;margin-bottom:5px}.player-item.new{background:rgba(212,160,55,.18);color:#fde68a;font-weight:700}@keyframes slideUp{to{opacity:1;transform:translateY(0)}}
+.slot{font-family:Oswald,sans-serif;font-size:clamp(20px,3vw,32px);font-weight:700;letter-spacing:1px;min-height:76px;display:flex;align-items:center;justify-content:center;text-align:center;line-height:1.2}.slot.idle{color:#1f3927}.slot.spin{color:#64748b;animation:flicker .07s infinite alternate}.slot.player{color:#fcd34d;text-shadow:0 0 28px rgba(252,211,77,.5)}.slot.team{color:#34d399;text-shadow:0 0 28px rgba(52,211,153,.45)}@keyframes flicker{from{opacity:.35}to{opacity:1}}
+.phase-badge{display:inline-flex;padding:5px 16px;border-radius:20px;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700}.pb-idle{background:#102016;border:1px solid #1f3a29;color:#64748b}.pb-adult{background:rgba(96,165,250,.12);border:1px solid rgba(96,165,250,.35);color:#93c5fd}.pb-junior{background:rgba(52,211,153,.12);border:1px solid rgba(52,211,153,.35);color:#6ee7b7}.pb-done{background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.35);color:#34d399}
+button{font-family:Oswald,sans-serif;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer}.btn-primary{background:linear-gradient(135deg,#d4a037,#9a6b12);color:#07110b;border:0;padding:12px 30px;border-radius:10px;font-weight:700}.btn-draw{background:linear-gradient(135deg,#059669,#047857);color:white;border:0;padding:12px 30px;border-radius:10px;font-weight:700}.btn-reset{background:transparent;border:1px solid #334155;color:#64748b;padding:10px 18px;border-radius:8px;font-size:12px}button:disabled{background:#1e293b!important;color:#334155!important;cursor:not-allowed}.prog-track{height:4px;border-radius:2px;background:rgba(255,255,255,.08);overflow:hidden}.prog-fill{height:100%;transition:width .45s}.card-pulse{animation:cpulse .55s ease}@keyframes cpulse{0%{box-shadow:0 0 0 0 rgba(212,160,55,.38)}100%{box-shadow:0 0 0 14px transparent}}#complete-banner{display:none;border:1px solid #d4a037;border-radius:12px;padding:20px;text-align:center;font-family:Oswald,sans-serif;font-size:24px;color:#fcd34d;letter-spacing:3px;text-transform:uppercase;margin-top:24px}
 </style>
 </head>
 <body class="p-4 md:p-6">
-
-<!-- HEADER -->
-<div class="text-center mb-6" style="background:linear-gradient(135deg,#162040,#0f172a);border-radius:14px;padding:22px 20px;border:1px solid rgba(255,255,255,.07)">
-  <h1 class="font-oswald text-4xl md:text-5xl font-bold tracking-widest text-white uppercase">⚡ The Official Padel Draft ⚡</h1>
-  <p class="text-slate-400 mt-2 tracking-widest text-sm uppercase">48 Players &nbsp;|&nbsp; 6 Franchises &nbsp;|&nbsp; 8 Players Per Team &nbsp;|&nbsp; LPFL Season 4</p>
+<div class="text-center mb-6" style="background:linear-gradient(135deg,#0b1a10,#07110b);border-radius:14px;padding:22px 20px;border:1px solid rgba(212,160,55,.25)">
+  <h1 class="font-oswald text-4xl md:text-5xl font-bold tracking-widest uppercase">🏆 LP Legacy League Draft Night 🏆</h1>
+  <p class="text-yellow-500 mt-2 tracking-widest text-sm uppercase">48 Players | 6 Legacy Teams | 5 Adults + 3 Juniors Per Team</p>
 </div>
-
-<!-- CONTROLS -->
 <div class="glass rounded-xl mb-5 px-5 py-4 max-w-4xl mx-auto">
-  <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
-    <span class="phase-badge pb-idle" id="phase-badge">⏳ Ready</span>
-    <span class="text-xs text-slate-500" id="pick-counter">—</span>
-  </div>
-  <div class="flex flex-wrap justify-center gap-3">
-    <button class="btn-primary" id="btn-init" onclick="initDraft()">🔒 Lock In Math Engine</button>
-    <button class="btn-draw" id="btn-draw" disabled onclick="drawPick()">▶ Draw Next Pick</button>
-    <button class="btn-reset" onclick="resetDraft()">↺ Reset</button>
-  </div>
+  <div class="flex flex-wrap items-center justify-between gap-3 mb-4"><span class="phase-badge pb-idle" id="phase-badge">⏳ Ready</span><span class="text-xs text-slate-500" id="pick-counter">—</span></div>
+  <div class="flex flex-wrap justify-center gap-3"><button class="btn-primary" id="btn-init" onclick="initDraft()">🔒 Lock In Random Engine</button><button class="btn-draw" id="btn-draw" disabled onclick="drawPick()">▶ Draw Next Pick</button><button class="btn-reset" onclick="resetDraft()">↺ Reset</button></div>
 </div>
-
-<!-- JUMBOTRON -->
 <div class="glass rounded-xl mb-6 p-5 max-w-4xl mx-auto" id="jumbotron" style="display:none">
-  <div class="grid grid-cols-2 gap-4">
-    <div class="text-center">
-      <div class="text-xs tracking-widest text-slate-500 uppercase mb-2">🎯 The Player(s)</div>
-      <div class="slot idle" id="jumbo-player">— — —</div>
-      <div class="text-xs text-slate-500 mt-1" id="jumbo-pick-type"></div>
-    </div>
-    <div class="text-center" style="border-left:1px solid rgba(255,255,255,.07)">
-      <div class="text-xs tracking-widest text-slate-500 uppercase mb-2">🏠 The Destination</div>
-      <div class="slot idle" id="jumbo-team">— — —</div>
-      <div class="text-xs text-slate-500 mt-1" id="jumbo-tally"></div>
-    </div>
-  </div>
+  <div class="grid grid-cols-2 gap-4"><div class="text-center"><div class="text-xs tracking-widest text-slate-500 uppercase mb-2">🎯 The Player</div><div class="slot idle" id="jumbo-player">— — —</div><div class="text-xs text-slate-500 mt-1" id="jumbo-pick-type"></div></div><div class="text-center" style="border-left:1px solid rgba(255,255,255,.07)"><div class="text-xs tracking-widest text-slate-500 uppercase mb-2">🏠 Legacy Team</div><div class="slot idle" id="jumbo-team">— — —</div><div class="text-xs text-slate-500 mt-1" id="jumbo-tally"></div></div></div>
 </div>
-
-<!-- TEAM GRID -->
 <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 max-w-7xl mx-auto" id="roster-grid"></div>
-
-<!-- COMPLETE -->
 <div class="max-w-4xl mx-auto" id="complete-banner">🏆 Draft Complete — All 48 Players Assigned 🏆</div>
-
 <script>
-// ── TEAM DEFS ─────────────────────────────────────────────
 const TEAMS=[
-  {id:'t1',name:'Team 1',num:1,tbcls:'tb1',tncls:'tn1',pfcls:'pf1',color:'#ef4444'},
-  {id:'t2',name:'Team 2',num:2,tbcls:'tb2',tncls:'tn2',pfcls:'pf2',color:'#3b82f6'},
-  {id:'t3',name:'Team 3',num:3,tbcls:'tb3',tncls:'tn3',pfcls:'pf3',color:'#10b981'},
-  {id:'t4',name:'Team 4',num:4,tbcls:'tb4',tncls:'tn4',pfcls:'pf4',color:'#eab308'},
-  {id:'t5',name:'Team 5',num:5,tbcls:'tb5',tncls:'tn5',pfcls:'pf5',color:'#a855f7'},
-  {id:'t6',name:'Team 6',num:6,tbcls:'tb6',tncls:'tn6',pfcls:'pf6',color:'#f97316'},
+  {id:'t1',name:'LP Leopards',emoji:'🐆',tbcls:'tb1',tncls:'tn1',pfcls:'pf1'},
+  {id:'t2',name:'LP Rhinos',emoji:'🦏',tbcls:'tb2',tncls:'tn2',pfcls:'pf2'},
+  {id:'t3',name:'LP Cheetahs',emoji:'🐆',tbcls:'tb3',tncls:'tn3',pfcls:'pf3'},
+  {id:'t4',name:'LP Honey Badgers',emoji:'⚔️',tbcls:'tb4',tncls:'tn4',pfcls:'pf4'},
+  {id:'t5',name:'LP Eagles',emoji:'🦅',tbcls:'tb5',tncls:'tn5',pfcls:'pf5'},
+  {id:'t6',name:'LP Jackals',emoji:'🐺',tbcls:'tb6',tncls:'tn6',pfcls:'pf6'}
 ];
 
-// ── PLAYERS ───────────────────────────────────────────────
-// Youth ranks for parity check (1=best, 18=weakest)
 const PLAYERS=[
-  // ANCHORS
-  {name:"Shoaib Nomani",    isKid:false, preAssigned:"t1"},
-  {name:"Nomz",             isKid:false, preAssigned:"t1"},
-  {name:"Aadam Nomani",     isKid:true,  preAssigned:"t1", rank:2},
-  {name:"Rafiq Mohamed",    isKid:false, preAssigned:"t2"},
-  {name:"Ayaan Mohamed",    isKid:true,  preAssigned:"t2", rank:10},
-  {name:"Irshaad Moola",    isKid:false, preAssigned:"t3"},
-  {name:"Mohamed Moola",    isKid:true,  preAssigned:"t3", rank:6},
-  {name:"Eesa Moola",        isKid:true,  preAssigned:"t3", rank:15},
-  {name:"Muhammad Mangerah",isKid:false, preAssigned:"t4"},
-  {name:"Ebrahim Mangerah", isKid:true,  preAssigned:"t4", rank:12},
-  {name:"Yusuf Ismail",     isKid:false, preAssigned:"t5"},
-  {name:"Zuhayr Ismail",    isKid:true,  preAssigned:"t5", rank:9},
-  // FAMILIES
-  {name:"Fahad",            isKid:false,family:"fam1"},{name:"Hoosein Patel",   isKid:true, family:"fam1",rank:7},
-  {name:"Faheem Seedat",    isKid:false,family:"fam2"},{name:"Reyhaan Seedat",  isKid:true, family:"fam2",rank:16},
-  {name:"Azhar Sujee",      isKid:false,family:"fam3"},{name:"Yahya Sujee",     isKid:true, family:"fam3",rank:14},
-  {name:"Oz",               isKid:false,family:"fam4"},{name:"Muhammed Rohaan Shaik",isKid:true,family:"fam4",rank:16},
-  {name:"Stiaan Duvenhage", isKid:false,family:"fam5"},{name:"Dewan Duvenhage", isKid:true, family:"fam5",rank:17},
-  {name:"Scharl",           isKid:false,family:"fam6"},{name:"Jude van den Berg",            isKid:true, family:"fam6",rank:1},{name:"Seth van den Berg",isKid:true,family:"fam6",rank:4},
-  {name:"Fiaz Bhikoo",      isKid:false,family:"fam7"},{name:"Arman Bhikoo",    isKid:true, family:"fam7",rank:5},
-  // SINGLE ADULTS
-  {name:"Adil Amod",isKid:false},{name:"Akmeer Amod",isKid:false},{name:"Christiaan van Aardt",isKid:false},
-  {name:"Dian Erasmus",isKid:false},{name:"Jameel Valley",isKid:false},{name:"Jovan Erasmus",isKid:false},
-  {name:"Zunaid Ganchi",isKid:false},{name:"Mauritz van der Mescht",isKid:false},{name:"Michael Smit",isKid:false},
-  {name:"Sahal Yunus",isKid:false},{name:"Sailesh Nagar",isKid:false},{name:"Sandeep Daya",isKid:false},
-  {name:"Spanner Mescht",isKid:false},{name:"Stephen Remane",isKid:false},{name:"Yusuf Amod",isKid:false},
-  {name:"Zandre de Kok",isKid:false},{name:"Zinidine Morgan",isKid:false},
-  // SINGLE YOUTH
-  {name:"Nathan Mckenzie",isKid:true,rank:3},{name:"Abdurahmaan Jogee",isKid:true,rank:8},
-  {name:"Huzaifah Sujee",isKid:true,rank:11},{name:"Mikel Pillay",isKid:true,rank:13},
+  {name:'Shoaib Nomani',isKid:false,family:'fam_nomani'},{name:'Nomz',isKid:false,family:'fam_nomani'},{name:'Aadam Nomani',isKid:true,rank:2,family:'fam_nomani'},
+  {name:'Rafiq Mohamed',isKid:false,family:'fam_rafiq'},{name:'Ayaan Mohamed',isKid:true,rank:10,family:'fam_rafiq'},
+  {name:'Irshaad Moola',isKid:false,family:'fam_moola'},{name:'Mohamed Moola',isKid:true,rank:6,family:'fam_moola'},{name:'Eesa Moola',isKid:true,rank:15,family:'fam_moola'},
+  {name:'Muhammad Mangerah',isKid:false,family:'fam_mangerah'},{name:'Ebrahim Mangerah',isKid:true,rank:12,family:'fam_mangerah'},
+  {name:'Yusuf Ismail',isKid:false,family:'fam_ismail'},{name:'Zuhayr Ismail',isKid:true,rank:9,family:'fam_ismail'},
+  {name:'Fahad Patel',isKid:false,family:'fam_patel'},{name:'Hoosein Patel',isKid:true,rank:7,family:'fam_patel'},
+  {name:'Faheem Seedat',isKid:false,family:'fam_seedat'},{name:'Rayyan Seedat',isKid:true,rank:16,family:'fam_seedat'},
+  {name:'Azhar Sujee',isKid:false,family:'fam_sujee'},{name:'Yahya Sujee',isKid:true,rank:14,family:'fam_sujee'},
+  {name:'Ozayr Shaik',isKid:false,family:'fam_shaik'},{name:'Muhammed Rohaan Shaik',isKid:true,rank:16,family:'fam_shaik'},
+  {name:'Stiaan Duvenhage',isKid:false,family:'fam_duvenhage'},{name:'Dewan Duvenhage',isKid:true,rank:17,family:'fam_duvenhage'},
+  {name:'Scharl',isKid:false,family:'fam_vandenberg'},{name:'Jude van den Berg',isKid:true,rank:1,family:'fam_vandenberg'},{name:'Seth van den Berg',isKid:true,rank:4,family:'fam_vandenberg'},
+  {name:'Fiaz Bhikoo',isKid:false,family:'fam_bhikoo'},{name:'Arman Bhikoo',isKid:true,rank:5,family:'fam_bhikoo'},
+  {name:'Adiel Amod',isKid:false},{name:'Akmeer Amod',isKid:false},{name:'Christiaan van Aardt',isKid:false},{name:'Dian Erasmus',isKid:false},{name:'Jameel Valley',isKid:false},{name:'Jovan Erasmus',isKid:false},{name:'Zunaid Ganchi',isKid:false},{name:'Mauritz van der Mescht',isKid:false},{name:'Michael Smit',isKid:false},{name:'Sahal Yunus',isKid:false},{name:'Sailesh Nagar',isKid:false},{name:'Sandeep Daya',isKid:false},{name:'Spanner Mescht',isKid:false},{name:'Stephen Remane',isKid:false},{name:'Yusuf Amod',isKid:false},{name:'Zandre de Kok',isKid:false},{name:'Zinidine Morgan',isKid:false},
+  {name:'Nathan Mckenzie',isKid:true,rank:3},{name:'Abdurahmaan Jogee',isKid:true,rank:8},{name:'Huzaifah Sujee',isKid:true,rank:11},{name:'Mikel Pillay',isKid:true,rank:13}
 ];
 
-const MAX_A=5, MAX_K=3;
-const RIVALRY={fam1:'t3'}; // Fahad cannot go to t3
-// Team 6 gets lowest priority — treated as last resort in sorting
+const MAX_A=5,MAX_K=3,JUNIOR_MIN=18,JUNIOR_MAX=45;
+const CANNOT_BE_TOGETHER=[['Irshaad Moola','Fahad Patel']];
 
-// ── SOLVER ────────────────────────────────────────────────
-function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a;}
-
-function pickTeam(eligible, counts){
-  // Pick from teams with lowest headcount, randomly among ties
-  eligible.sort((a,b)=>(counts[a].a+counts[a].k)-(counts[b].a+counts[b].k));
-  const minC = counts[eligible[0]].a + counts[eligible[0]].k;
-  const tied = eligible.filter(t=>counts[t].a+counts[t].k===minC);
-  return tied[Math.floor(Math.random()*tied.length)];
-}
+function randInt(max){if(max<=0)return 0;const a=new Uint32Array(1);crypto.getRandomValues(a);return a[0]%max}
+function shuffle(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=randInt(i+1);[a[i],a[j]]=[a[j],a[i]]}return a}
+function fingerprint(playerTeam){return Object.keys(playerTeam).sort().map(k=>k+':'+playerTeam[k]).join('|')}
 
 function calcDraft(){
-  // Seed counts from anchors
-  function freshCounts(){
-    const c={};
-    TEAMS.forEach(t=>c[t.id]={a:0,k:0});
-    PLAYERS.filter(p=>p.preAssigned).forEach(p=>{
-      if(p.isKid) c[p.preAssigned].k++; else c[p.preAssigned].a++;
-    });
-    return c;
-  }
-
+  const baseTids=TEAMS.map(t=>t.id);
   const famMap={};
-  PLAYERS.filter(p=>p.family).forEach(p=>{
-    if(!famMap[p.family])famMap[p.family]=[];
-    famMap[p.family].push(p);
-  });
+  PLAYERS.filter(p=>p.family).forEach(p=>{if(!famMap[p.family])famMap[p.family]=[];famMap[p.family].push(p)});
   const fams=Object.entries(famMap).map(([id,members])=>({id,members}));
-  const soloA=PLAYERS.filter(p=>!p.preAssigned&&!p.family&&!p.isKid);
-  const soloK=PLAYERS.filter(p=>!p.preAssigned&&!p.family&&p.isKid);
-  const tids=TEAMS.map(t=>t.id);
+  const soloA=PLAYERS.filter(p=>!p.family&&!p.isKid);
+  const soloK=PLAYERS.filter(p=>!p.family&&p.isKid);
+  const valid=[],seen=new Set();
 
-  for(let attempt=1;attempt<=10000;attempt++){
-    const counts=freshCounts();
-    const assign={};
+  for(let attempt=1;attempt<=120000;attempt++){
+    const tids=shuffle(baseTids);
+    const counts={},playerTeam={};
+    tids.forEach(t=>counts[t]={a:0,k:0});
     let ok=true;
 
-    const sf=shuffle([...fams]);
-    const sa=shuffle([...soloA]);
-    const sk=shuffle([...soloK]);
+    const groups=shuffle([
+      ...fams.map(f=>({kind:'family',members:shuffle(f.members)})),
+      ...soloA.map(p=>({kind:'soloAdult',members:[p]})),
+      ...soloK.map(p=>({kind:'soloKid',members:[p]}))
+    ]);
 
-    // 1. Families first — reserves adult+kid slots before solo players flood teams
-    for(const fam of sf){
-      const fa=fam.members.filter(p=>!p.isKid).length;
-      const fk=fam.members.filter(p=>p.isKid).length;
-      let elig=tids.filter(tid=>{
-        if(counts[tid].a+fa>MAX_A||counts[tid].k+fk>MAX_K)return false;
-        if(RIVALRY[fam.id]===tid)return false;
-        return true;
-      });
-      if(!elig.length){ok=false;break;}
-      const picked=pickTeam(elig,counts);
-      assign[fam.id]=picked;
-      counts[picked].a+=fa; counts[picked].k+=fk;
+    for(const g of groups){
+      const adults=g.members.filter(p=>!p.isKid).length;
+      const kids=g.members.filter(p=>p.isKid).length;
+      let eligible=shuffle(tids.filter(t=>counts[t].a+adults<=MAX_A&&counts[t].k+kids<=MAX_K));
+      if(!eligible.length){ok=false;break}
+      const team=eligible[randInt(eligible.length)];
+      g.members.forEach(p=>playerTeam[p.name]=team);
+      counts[team].a+=adults;counts[team].k+=kids;
     }
     if(!ok)continue;
+    if(!baseTids.every(t=>counts[t].a===MAX_A&&counts[t].k===MAX_K))continue;
+    if(CANNOT_BE_TOGETHER.some(([p1,p2])=>playerTeam[p1]&&playerTeam[p2]&&playerTeam[p1]===playerTeam[p2]))continue;
 
-    // 2. Solo adults — fills remaining adult slots evenly
-    for(const p of sa){
-      let elig=tids.filter(tid=>counts[tid].a<MAX_A);
-      if(!elig.length){ok=false;break;}
-      const picked=pickTeam(elig,counts);
-      assign[p.name]=picked; counts[picked].a++;
+    const kidsByTeam={};baseTids.forEach(t=>kidsByTeam[t]=[]);
+    PLAYERS.filter(p=>p.isKid).forEach(p=>kidsByTeam[playerTeam[p.name]].push(p.rank));
+    if(!baseTids.every(t=>{const s=kidsByTeam[t].reduce((a,b)=>a+b,0);return s>=JUNIOR_MIN&&s<=JUNIOR_MAX}))continue;
+
+    const fp=fingerprint(playerTeam);if(seen.has(fp))continue;seen.add(fp);
+    const byTeam={};baseTids.forEach(t=>byTeam[t]=[]);
+    shuffle(PLAYERS).forEach(p=>byTeam[playerTeam[p.name]].push({player:p,teamId:playerTeam[p.name],label:p.isKid?'👦 Junior':'🧑 Adult'}));
+    baseTids.forEach(t=>byTeam[t]=shuffle(byTeam[t]));
+
+    const final=[];
+    for(let r=0;r<8;r++){
+      const round=[];shuffle(baseTids).forEach(t=>{if(byTeam[t][r])round.push(byTeam[t][r])});
+      final.push(...shuffle(round));
     }
-    if(!ok)continue;
-
-    // 3. Solo kids last — fills remaining kid slots
-    for(const p of sk){
-      let elig=tids.filter(tid=>counts[tid].k<MAX_K);
-      if(!elig.length){ok=false;break;}
-      const picked=pickTeam(elig,counts);
-      assign[p.name]=picked; counts[picked].k++;
-    }
-    if(!ok)continue;
-
-    // Validate all full
-    if(!tids.every(tid=>counts[tid].a===MAX_A&&counts[tid].k===MAX_K))continue;
-
-    // Youth rank parity check: each team's kid rankSum should be within 20–40
-    // Anchored kids already set baseline; check total per team
-    const kidsByTeam={};
-    tids.forEach(tid=>kidsByTeam[tid]=[]);
-    PLAYERS.filter(p=>p.isKid&&p.preAssigned).forEach(p=>kidsByTeam[p.preAssigned].push(p.rank));
-    fams.forEach(fam=>{
-      fam.members.filter(p=>p.isKid).forEach(p=>kidsByTeam[assign[fam.id]].push(p.rank));
-    });
-    sk.forEach(p=>kidsByTeam[assign[p.name]].push(p.rank));
-    const parityOk=tids.every(tid=>{
-      const s=kidsByTeam[tid].reduce((a,b)=>a+b,0);
-      return s>=18&&s<=45;
-    });
-    if(!parityOk)continue;
-
-    console.log(`✅ Valid draft found in ${attempt} attempt(s)`);
-
-    // 48 individual picks — interleaved round-robin by team so no team gets
-    // flooded early. Within each round the 6 team picks are shuffled randomly.
-    const byTeam = {};
-    TEAMS.forEach(t => byTeam[t.id] = []);
-
-    PLAYERS.filter(p=>p.preAssigned).forEach(p=>{
-      byTeam[p.preAssigned].push({player:p, teamId:p.preAssigned, label:p.isKid?'👦 Youth':'🧑 Adult'});
-    });
-    sf.forEach(fam=>{
-      fam.members.forEach(p=>{
-        byTeam[assign[fam.id]].push({player:p, teamId:assign[fam.id], label:p.isKid?'👦 Youth':'🧑 Adult'});
-      });
-    });
-    sa.forEach(p=>{
-      byTeam[assign[p.name]].push({player:p, teamId:assign[p.name], label:'🧑 Adult'});
-    });
-    sk.forEach(p=>{
-      byTeam[assign[p.name]].push({player:p, teamId:assign[p.name], label:'👦 Youth'});
-    });
-
-    // Shuffle each team's own picks randomly
-    TEAMS.forEach(t => shuffle(byTeam[t.id]));
-
-    // Interleave round-robin: round 1 picks one from each team, round 2 etc.
-    // Within each round, shuffle the team order
-    const final = [];
-    const maxRounds = 8; // max players per team
-    for(let round = 0; round < maxRounds; round++){
-      const roundPicks = [];
-      TEAMS.forEach(t => {
-        if(byTeam[t.id][round]) roundPicks.push(byTeam[t.id][round]);
-      });
-      shuffle(roundPicks); // randomise which team goes first within the round
-      roundPicks.forEach(p => final.push(p));
-    }
-    return final;
+    valid.push(final);
+    if(valid.length>=1000)break;
   }
-  return null;
+  console.log('Valid unique drafts generated:',valid.length);
+  if(!valid.length)return null;
+  return valid[randInt(valid.length)];
 }
 
-// ── STATE ─────────────────────────────────────────────────
-let draftSeq=[], currentPick=0, isAnimating=false;
-const liveState={};
-
-// ── UI BUILD ──────────────────────────────────────────────
-function buildRoster(){
-  const grid=document.getElementById('roster-grid');
-  grid.innerHTML='';
-  TEAMS.forEach(t=>{
-    liveState[t.id]={a:0,k:0};
-    const div=document.createElement('div');
-    div.className=`glass rounded-xl overflow-hidden ${t.tbcls}`;
-    div.id=`card-${t.id}`;
-    div.innerHTML=`
-      <div class="bg-black/30 px-4 py-3 flex items-center justify-between">
-        <h3 class="font-oswald text-lg font-semibold tracking-widest uppercase ${t.tncls}">${t.name}</h3>
-        <span class="text-xs text-slate-500" id="tally-${t.id}">0 / 8</span>
-      </div>
-      <div class="prog-track mx-4 mt-1 mb-3"><div class="prog-fill ${t.pfcls}" id="prog-${t.id}" style="width:0%"></div></div>
-      <div class="px-4 pb-4 flex gap-4">
-        <div class="flex-1">
-          <div class="text-xs text-slate-500 uppercase border-b border-slate-700 pb-1 mb-2 flex justify-between">
-            <span>Adults</span><span id="ac-${t.id}">0/5</span>
-          </div>
-          <div id="adults-${t.id}" class="space-y-1 min-h-[100px]"></div>
-        </div>
-        <div class="flex-1">
-          <div class="text-xs text-slate-500 uppercase border-b border-slate-700 pb-1 mb-2 flex justify-between">
-            <span>Youth</span><span id="kc-${t.id}">0/3</span>
-          </div>
-          <div id="kids-${t.id}" class="space-y-1 min-h-[65px]"></div>
-        </div>
-      </div>
-    `;
-    grid.appendChild(div);
-  });
-}
-
-function addPlayer(tid, player, style){
-  const container=document.getElementById(player.isKid?`kids-${tid}`:`adults-${tid}`);
-  if(!container)return;
-  const el=document.createElement('div');
-  el.className=`player-item ${style}`;
-  const rankBadge=player.isKid&&player.rank?` <span style="font-size:9px;background:rgba(255,255,255,.08);color:#64748b;padding:1px 4px;border-radius:3px;margin-left:3px">R${player.rank}</span>`:'';
-  const icon=style==='new-family'?'👨‍👦 ':style==='new-anchor'?'⚓ ':style==='new-single'?'• ':'• ';
-  el.innerHTML=`${icon}${player.name}${rankBadge}`;
-  container.appendChild(el);
-  setTimeout(()=>el.classList.replace(style,'settled'),2500);
-  // Update counts
-  if(player.isKid) liveState[tid].k++; else liveState[tid].a++;
-  updateTally(tid);
-}
-
-function updateTally(tid){
-  const s=liveState[tid];
-  const total=s.a+s.k;
-  document.getElementById(`tally-${tid}`).textContent=`${total} / 8`;
-  document.getElementById(`ac-${tid}`).textContent=`${s.a}/5`;
-  document.getElementById(`kc-${tid}`).textContent=`${s.k}/3`;
-  document.getElementById(`prog-${tid}`).style.width=`${(total/8)*100}%`;
-  if(s.a===5) document.getElementById(`ac-${tid}`).style.color='#34d399';
-  if(s.k===3) document.getElementById(`kc-${tid}`).style.color='#34d399';
-}
-
-function setPhase(phase,label){
-  const el=document.getElementById('phase-badge');
-  const cls={0:'pb-anchor',1:'pb-p1',2:'pb-p2',3:'pb-p3','done':'pb-done'};
-  el.className=`phase-badge ${cls[phase]||'pb-idle'}`;
-  el.textContent=label||'Ready';
-}
-
-// ── ANIMATION ─────────────────────────────────────────────
-const ALL_SPIN=PLAYERS.map(p=>p.name);
-const TEAM_SPIN=TEAMS.map(t=>t.name);
-function rnd(a){return a[Math.floor(Math.random()*a.length)];}
-
-function drawPick(){
-  if(isAnimating||currentPick>=draftSeq.length)return;
-  isAnimating=true;
-  document.getElementById('btn-draw').disabled=true;
-
-  const pick=draftSeq[currentPick];
-  const td=TEAMS.find(t=>t.id===pick.teamId);
-  const p=pick.player;
-
-  setPhase(p.isKid?3:1, pick.label);
-
-  const jpEl=document.getElementById('jumbo-player');
-  const jtEl=document.getElementById('jumbo-team');
-  const ptEl=document.getElementById('jumbo-pick-type');
-  const ttEl=document.getElementById('jumbo-tally');
-
-  jpEl.className='slot spin'; jtEl.className='slot spin';
-  ptEl.textContent=''; ttEl.textContent='';
-
-  const i1=setInterval(()=>jpEl.textContent=rnd(ALL_SPIN),75);
-  const i2=setInterval(()=>jtEl.textContent=rnd(TEAM_SPIN),80);
-
-  setTimeout(()=>{
-    clearInterval(i1);
-    jpEl.textContent=p.name;
-    jpEl.className='slot player';
-    ptEl.innerHTML=`<span style="color:#94a3b8">${pick.label}</span>`;
-  },1500);
-
-  setTimeout(()=>{
-    clearInterval(i2);
-    jtEl.textContent=td.name;
-    jtEl.className='slot team';
-
-    // Pulse card
-    const card=document.getElementById(`card-${pick.teamId}`);
-    card.classList.add('card-pulse');
-    setTimeout(()=>card.classList.remove('card-pulse'),600);
-
-    // Add single player
-    addPlayer(pick.teamId, p, 'new-single');
-
-    // Jumbotron tally
-    const s=liveState[pick.teamId];
-    ttEl.textContent=`${s.a}/5 Adults · ${s.k}/3 Youth`;
-
-    currentPick++;
-    document.getElementById('pick-counter').textContent=`Pick ${currentPick} of ${draftSeq.length}`;
-    isAnimating=false;
-
-    if(currentPick>=draftSeq.length){
-      document.getElementById('btn-draw').disabled=true;
-      document.getElementById('btn-draw').textContent='✓ Draft Complete';
-      document.getElementById('complete-banner').style.display='block';
-      setPhase('done','✅ Draft Complete');
-    } else {
-      document.getElementById('btn-draw').disabled=false;
-    }
-  },2600);
-}
-
-// ── INIT / RESET ──────────────────────────────────────────
-function initDraft(){
-  document.getElementById('btn-init').disabled=true;
-  document.getElementById('btn-init').textContent='⚙️ Calculating...';
-  setTimeout(()=>{
-    const seq=calcDraft();
-    if(!seq){
-      alert('Solver failed after 10,000 attempts. Please reset and try again.');
-      document.getElementById('btn-init').disabled=false;
-      document.getElementById('btn-init').textContent='🔒 Lock In Math Engine';
-      return;
-    }
-    draftSeq=seq;
-    currentPick=0;
-    buildRoster();
-    document.getElementById('jumbotron').style.display='block';
-    document.getElementById('jumbo-player').textContent='— — —';
-    document.getElementById('jumbo-player').className='slot idle';
-    document.getElementById('jumbo-team').textContent='— — —';
-    document.getElementById('jumbo-team').className='slot idle';
-    document.getElementById('jumbo-pick-type').textContent='';
-    document.getElementById('jumbo-tally').textContent='';
-    document.getElementById('complete-banner').style.display='none';
-    document.getElementById('btn-init').style.display='none';
-    document.getElementById('btn-draw').disabled=false;
-    document.getElementById('pick-counter').textContent=`Pick 0 of ${draftSeq.length}`;
-    setPhase('idle','⏳ Ready — Draw First Pick');
-  },400);
-}
-
-function resetDraft(){
-  draftSeq=[]; currentPick=0; isAnimating=false;
-  document.getElementById('btn-init').style.display='';
-  document.getElementById('btn-init').disabled=false;
-  document.getElementById('btn-init').textContent='🔒 Lock In Math Engine';
-  document.getElementById('btn-draw').disabled=true;
-  document.getElementById('btn-draw').textContent='▶ Draw Next Pick';
-  document.getElementById('jumbotron').style.display='none';
-  document.getElementById('complete-banner').style.display='none';
-  document.getElementById('pick-counter').textContent='—';
-  document.getElementById('roster-grid').innerHTML='';
-  setPhase('idle','⏳ Ready');
-}
+let draftSeq=[],currentPick=0,isAnimating=false;const liveState={};
+function buildRoster(){const grid=document.getElementById('roster-grid');grid.innerHTML='';TEAMS.forEach(t=>{liveState[t.id]={a:0,k:0};const div=document.createElement('div');div.className=`glass rounded-xl overflow-hidden ${t.tbcls}`;div.id=`card-${t.id}`;div.innerHTML=`<div class="bg-black/30 px-4 py-3 flex items-center justify-between"><h3 class="font-oswald text-lg font-semibold tracking-widest uppercase ${t.tncls}">${t.emoji} ${t.name}</h3><span class="text-xs text-slate-500" id="tally-${t.id}">0 / 8</span></div><div class="prog-track mx-4 mt-1 mb-3"><div class="prog-fill ${t.pfcls}" id="prog-${t.id}" style="width:0%"></div></div><div class="px-4 pb-4 flex gap-4"><div class="flex-1"><div class="text-xs text-slate-500 uppercase border-b border-slate-700 pb-1 mb-2 flex justify-between"><span>Adults</span><span id="ac-${t.id}">0/5</span></div><div id="adults-${t.id}" class="space-y-1 min-h-[100px]"></div></div><div class="flex-1"><div class="text-xs text-slate-500 uppercase border-b border-slate-700 pb-1 mb-2 flex justify-between"><span>Juniors</span><span id="kc-${t.id}">0/3</span></div><div id="kids-${t.id}" class="space-y-1 min-h-[65px]"></div></div></div>`;grid.appendChild(div)})}
+function addPlayer(tid,p){const cont=document.getElementById(p.isKid?`kids-${tid}`:`adults-${tid}`);const el=document.createElement('div');el.className='player-item new';const badge=p.isKid?` <span style="font-size:9px;background:rgba(255,255,255,.09);color:#64748b;padding:1px 4px;border-radius:3px;margin-left:3px">R${p.rank}</span>`:'';el.innerHTML=`• ${p.name}${badge}`;cont.appendChild(el);setTimeout(()=>el.classList.remove('new'),2200);if(p.isKid)liveState[tid].k++;else liveState[tid].a++;updateTally(tid)}
+function updateTally(tid){const s=liveState[tid],tot=s.a+s.k;document.getElementById(`tally-${tid}`).textContent=`${tot} / 8`;document.getElementById(`ac-${tid}`).textContent=`${s.a}/5`;document.getElementById(`kc-${tid}`).textContent=`${s.k}/3`;document.getElementById(`prog-${tid}`).style.width=`${tot/8*100}%`}
+function setPhase(type,label){const el=document.getElementById('phase-badge');el.className=`phase-badge ${type==='done'?'pb-done':type==='junior'?'pb-junior':type==='adult'?'pb-adult':'pb-idle'}`;el.textContent=label}
+const ALL_SPIN=PLAYERS.map(p=>p.name),TEAM_SPIN=TEAMS.map(t=>`${t.emoji} ${t.name}`);function rnd(a){return a[randInt(a.length)]}
+function drawPick(){if(isAnimating||currentPick>=draftSeq.length)return;isAnimating=true;document.getElementById('btn-draw').disabled=true;const pick=draftSeq[currentPick],team=TEAMS.find(t=>t.id===pick.teamId),p=pick.player;setPhase(p.isKid?'junior':'adult',pick.label);const jp=document.getElementById('jumbo-player'),jt=document.getElementById('jumbo-team'),pt=document.getElementById('jumbo-pick-type'),tt=document.getElementById('jumbo-tally');jp.className='slot spin';jt.className='slot spin';pt.textContent='';tt.textContent='';const i1=setInterval(()=>jp.textContent=rnd(ALL_SPIN),70),i2=setInterval(()=>jt.textContent=rnd(TEAM_SPIN),85);setTimeout(()=>{clearInterval(i1);jp.textContent=p.name;jp.className='slot player';pt.textContent=pick.label},1400);setTimeout(()=>{clearInterval(i2);jt.textContent=`${team.emoji} ${team.name}`;jt.className='slot team';const card=document.getElementById(`card-${pick.teamId}`);card.classList.add('card-pulse');setTimeout(()=>card.classList.remove('card-pulse'),600);addPlayer(pick.teamId,p);const s=liveState[pick.teamId];tt.textContent=`${s.a}/5 Adults · ${s.k}/3 Juniors`;currentPick++;document.getElementById('pick-counter').textContent=`Pick ${currentPick} of ${draftSeq.length}`;isAnimating=false;if(currentPick>=draftSeq.length){document.getElementById('btn-draw').disabled=true;document.getElementById('btn-draw').textContent='✓ Draft Complete';document.getElementById('complete-banner').style.display='block';setPhase('done','✅ Draft Complete')}else document.getElementById('btn-draw').disabled=false},2450)}
+function initDraft(){document.getElementById('btn-init').disabled=true;document.getElementById('btn-init').textContent='⚙️ Generating 1000 Random Drafts...';setTimeout(()=>{const seq=calcDraft();if(!seq){alert('No valid draft found. Reduce restrictions and try again.');document.getElementById('btn-init').disabled=false;document.getElementById('btn-init').textContent='🔒 Lock In Random Engine';return}draftSeq=seq;currentPick=0;buildRoster();document.getElementById('jumbotron').style.display='block';document.getElementById('complete-banner').style.display='none';document.getElementById('btn-init').style.display='none';document.getElementById('btn-draw').disabled=false;document.getElementById('pick-counter').textContent=`Pick 0 of ${draftSeq.length}`;document.getElementById('jumbo-player').textContent='— — —';document.getElementById('jumbo-team').textContent='— — —';document.getElementById('jumbo-player').className='slot idle';document.getElementById('jumbo-team').className='slot idle';setPhase('idle','⏳ Ready — Draw First Pick')},250)}
+function resetDraft(){draftSeq=[];currentPick=0;isAnimating=false;document.getElementById('btn-init').style.display='';document.getElementById('btn-init').disabled=false;document.getElementById('btn-init').textContent='🔒 Lock In Random Engine';document.getElementById('btn-draw').disabled=true;document.getElementById('btn-draw').textContent='▶ Draw Next Pick';document.getElementById('jumbotron').style.display='none';document.getElementById('complete-banner').style.display='none';document.getElementById('pick-counter').textContent='—';document.getElementById('roster-grid').innerHTML='';setPhase('idle','⏳ Ready')}
 </script>
 </body>
 </html>
